@@ -8,7 +8,7 @@ public class SafetynetApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SafetynetApplication.class, args);
-		System.out.println("Hello World!");
+		System.out.println("Hello Worlddddddddddddddd !");
 	}
 
 }

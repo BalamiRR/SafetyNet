@@ -1,7 +1,6 @@
 package com.openclassrooms.safetynet.model;
 
 import org.springframework.stereotype.Component;
-
 import java.util.Date;
 import java.util.List;
 
