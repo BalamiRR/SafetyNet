@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface PersonRepository extends CrudRepository<Person, Long> {
-    public List<Person> findByFirstnameAndLastname(String firstName, String lastName);
+    public List<Person> findByFirstNameAndLastName(String firstName, String lastName);
 }

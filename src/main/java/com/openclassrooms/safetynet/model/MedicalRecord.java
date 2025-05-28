@@ -1,16 +1,31 @@
 package com.openclassrooms.safetynet.model;
 
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.List;
 
-@Component
+@Entity
+@Table(name = "medicalrecord")
 public class MedicalRecord {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    @Column(name="firstName")
     private String firstName;
+
+    @Column(name="lastName")
     private String lastName;
+
+    @Column(name="birthdate")
     private Date birthdate;
+
+    @Column(name="medications")
     private List<String> medications;
+
+    @Column(name="allergies")
     private List<String> allergies;
 
     public MedicalRecord(){
@@ -23,6 +38,14 @@ public class MedicalRecord {
         this.birthdate = birthdate;
         this.medications = medications;
         this.allergies = allergies;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {

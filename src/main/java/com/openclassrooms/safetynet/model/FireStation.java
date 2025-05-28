@@ -1,12 +1,21 @@
 package com.openclassrooms.safetynet.model;
 
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
-@Component
+@Entity
+@Table(name = "firestation")
 public class FireStation {
     //"address": "1509 Culver St",
     //"station": "3"
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    @Column(name="address")
     private String address;
+
+    @Column(name="station")
     private String station;
 
     public FireStation() {
@@ -15,6 +24,14 @@ public class FireStation {
     public FireStation(String address, String station) {
         this.address = address;
         this.station = station;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getAddress() {
