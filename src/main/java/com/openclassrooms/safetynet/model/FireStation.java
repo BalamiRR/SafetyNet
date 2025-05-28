@@ -1,7 +1,6 @@
 package com.openclassrooms.safetynet.model;
 
 import jakarta.persistence.*;
-import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name = "firestation")

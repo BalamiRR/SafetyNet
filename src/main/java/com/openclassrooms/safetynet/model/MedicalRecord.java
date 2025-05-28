@@ -1,7 +1,7 @@
 package com.openclassrooms.safetynet.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +19,7 @@ public class MedicalRecord {
     @Column(name="lastName")
     private String lastName;
 
+    @JsonFormat(pattern = "MM/dd/yyyy")
     @Column(name="birthdate")
     private Date birthdate;
 
@@ -35,7 +36,7 @@ public class MedicalRecord {
     public MedicalRecord(String firstName, String lastName, Date birthdate, List<String> medications, List<String> allergies) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.birthdate = birthdate;
+        this.birthdate = new Date(birthdate.getTime());
         this.medications = medications;
         this.allergies = allergies;
     }
