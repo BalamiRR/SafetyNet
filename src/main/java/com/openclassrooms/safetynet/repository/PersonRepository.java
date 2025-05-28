@@ -1,12 +1,24 @@
 package com.openclassrooms.safetynet.repository;
 
+import com.openclassrooms.safetynet.model.Database;
 import com.openclassrooms.safetynet.model.Person;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
 @Repository
-public interface PersonRepository extends CrudRepository<Person, Long> {
-    List<Person> findByFirstNameAndLastName(String firstName, String lastName);
+public class PersonRepository {
+    Database database;
+
+    @Autowired
+
+    public PersonRepository(Database database) {
+        this.database = database;
+    }
+
+    public List<Person> getAllPersons(){
+        return database.getPersons();
+    }
 }
