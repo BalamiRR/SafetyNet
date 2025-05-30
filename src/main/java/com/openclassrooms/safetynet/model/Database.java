@@ -13,8 +13,8 @@ import java.util.List;
 public class Database {
 
         private List<Person> persons = new ArrayList<>();
-        private List<FireStation> firestations = new ArrayList<>();
-        private List<MedicalRecord> medicalrecords = new ArrayList<>();
+        private List<FireStation> fireStations = new ArrayList<>();
+        private List<MedicalRecord> medicalRecord = new ArrayList<>();
         private static final ObjectMapper mapper = new ObjectMapper();
 
         @PostConstruct
@@ -28,9 +28,9 @@ public class Database {
                 JsonDataContainer allInfo = mapper.readValue(is, JsonDataContainer.class);
 
                 this.persons = allInfo.getPersons();
-                this.firestations = allInfo.getFirestations();
-                this.medicalrecords = allInfo.getMedicalrecords();
-                System.out.println("Yerel JSON yüklendi: " + persons.size() + " kişi");
+                this.fireStations = allInfo.getFirestations();
+                this.medicalRecord = allInfo.getMedicalrecords();
+                System.out.println("JSON uploaded : " + persons.size() + " person");
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -41,24 +41,24 @@ public class Database {
         return persons;
     }
 
-    public List<FireStation> getFirestations() {
-        return firestations;
-    }
-
-    public List<MedicalRecord> getMedicalrecords() {
-        return medicalrecords;
+    public List<FireStation> getFireStations() {
+        return fireStations;
     }
 
     public void setPersons(List<Person> persons) {
         this.persons = persons;
     }
 
-    public void setFirestations(List<FireStation> firestations) {
-        this.firestations = firestations;
+    public void setFireStations(List<FireStation> fireStations) {
+        this.fireStations = fireStations;
     }
 
-    public void setMedicalrecords(List<MedicalRecord> medicalrecords) {
-        this.medicalrecords = medicalrecords;
+    public List<MedicalRecord> getMedicalRecord() {
+        return medicalRecord;
+    }
+
+    public void setMedicalRecord(List<MedicalRecord> medicalRecord) {
+        this.medicalRecord = medicalRecord;
     }
 }
 
