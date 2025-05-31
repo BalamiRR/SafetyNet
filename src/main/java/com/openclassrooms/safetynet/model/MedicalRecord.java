@@ -9,7 +9,7 @@ public class MedicalRecord {
 
     private String firstName;
     private String lastName;
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "MM/dd/yyyy")
     private Date birthdate;
     private List<String> medications;
     private List<String> allergies;
