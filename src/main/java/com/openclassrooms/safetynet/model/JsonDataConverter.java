@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class Database {
+public class JsonDataConverter {
 
         private List<Person> persons = new ArrayList<>();
         private List<FireStation> fireStations = new ArrayList<>();
