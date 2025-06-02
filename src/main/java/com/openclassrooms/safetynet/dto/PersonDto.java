@@ -1,4 +1,4 @@
-package com.openclassrooms.safetynet.controller.dto;
+package com.openclassrooms.safetynet.dto;
 
 public class PersonDto {
     private String firstName;
