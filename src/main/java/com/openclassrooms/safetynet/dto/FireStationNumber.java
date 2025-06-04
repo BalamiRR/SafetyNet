@@ -1,7 +1,4 @@
 package com.openclassrooms.safetynet.dto;
-
-import com.openclassrooms.safetynet.model.Person;
-
 import java.util.List;
 
 public class FireStationNumber {
@@ -13,17 +10,17 @@ public class FireStationNumber {
 
     }
 
-    public FireStationNumber(List<Person> listPerson, int adult, int child) {
+    public FireStationNumber(List<PersonDto> listPerson, int adult, int child) {
         this.listPerson = listPerson;
         this.adult = adult;
         this.child = child;
     }
 
-    public List<Person> getListPerson() {
+    public List<PersonDto> getListPerson() {
         return listPerson;
     }
 
-    public void setListPerson(List<Person> listPerson) {
+    public void setListPerson(List<PersonDto> listPerson) {
         this.listPerson = listPerson;
     }
 

@@ -1,27 +1,24 @@
 package com.openclassrooms.safetynet.dto;
-
-import com.openclassrooms.safetynet.model.Person;
-
 import java.util.List;
 
 public class ChildAlert {
-    private List<Person> familyMembers;
+    private List<PersonDto> familyMembers;
     private List<ChildrenDto> children;
 
     public ChildAlert(){
 
     }
 
-    public ChildAlert(List<Person> familyMembers, List<ChildrenDto> children) {
+    public ChildAlert(List<PersonDto> familyMembers, List<ChildrenDto> children) {
         this.familyMembers = familyMembers;
         this.children = children;
     }
 
-    public List<Person> getFamilyMembers() {
+    public List<PersonDto> getFamilyMembers() {
         return familyMembers;
     }
 
-    public void setFamilyMembers(List<Person> familyMembers) {
+    public void setFamilyMembers(List<PersonDto> familyMembers) {
         this.familyMembers = familyMembers;
     }
 
