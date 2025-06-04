@@ -5,7 +5,7 @@ import com.openclassrooms.safetynet.model.Person;
 import java.util.List;
 
 public class FireStationNumber {
-    private List<Person> listPerson;
+    private List<PersonDto> listPerson;
     private int adult;
     private int child;
 
