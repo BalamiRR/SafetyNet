@@ -9,16 +9,16 @@ import java.util.List;
 
 @Repository
 public class PersonRepository {
-    JsonDataConverter database;
+    JsonDataConverter data;
 
     @Autowired
 
-    public PersonRepository(JsonDataConverter database) {
-        this.database = database;
+    public PersonRepository(JsonDataConverter data) {
+        this.data = data;
     }
 
     public List<Person> getAllPersons(){
-        return database.getPersons();
+        return data.getPersons();
     }
 
 

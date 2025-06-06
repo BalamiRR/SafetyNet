@@ -1,7 +1,7 @@
 package com.openclassrooms.safetynet.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -10,32 +10,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class JsonDataConverter {
+public class JsonDataConverter implements CommandLineRunner {
 
-        private List<Person> persons = new ArrayList<>();
-        private List<FireStation> fireStations = new ArrayList<>();
-        private List<MedicalRecord> medicalRecord = new ArrayList<>();
-        private static final ObjectMapper mapper = new ObjectMapper();
+    private List<Person> persons = new ArrayList<>();
+    private List<FireStation> fireStations = new ArrayList<>();
+    private List<MedicalRecord> medicalRecord = new ArrayList<>();
+    private static final ObjectMapper mapper = new ObjectMapper();
+    private static JsonDataContainer data;
 
-        @PostConstruct
-        public void init() {
-            try {
-                InputStream is = getClass().getClassLoader().getResourceAsStream("data.json");
-                if (is == null) {
-                    throw new RuntimeException("data.json not found in resources!");
-                }
+    public static JsonDataContainer getData(){
+            return data;
+    }
 
-                JsonDataContainer allInfo = mapper.readValue(is, JsonDataContainer.class);
-
-                this.persons = allInfo.getPersons();
-                this.fireStations = allInfo.getFirestations();
-                this.medicalRecord = allInfo.getMedicalrecords();
-                System.out.println("JSON uploaded : " + persons.size() + " person");
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    public static void setData(JsonDataContainer data){
+        data = data;
+    }
 
     public List<Person> getPersons() {
         return persons;
@@ -59,6 +48,26 @@ public class JsonDataConverter {
 
     public void setMedicalRecord(List<MedicalRecord> medicalRecord) {
         this.medicalRecord = medicalRecord;
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        try {
+            InputStream is = getClass().getClassLoader().getResourceAsStream("data.json");
+            if (is == null) {
+                throw new RuntimeException("data.json not found in resources!");
+            }
+
+            JsonDataContainer allInfo = mapper.readValue(is, JsonDataContainer.class);
+            JsonData.setPerson(allInfo.getPersons());
+            this.persons = allInfo.getPersons();
+            this.fireStations = allInfo.getFirestations();
+            this.medicalRecord = allInfo.getMedicalrecords();
+            System.out.println("JSON uploaded : " + allInfo.getPersons().size() + " person");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
