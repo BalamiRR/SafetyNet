@@ -16,14 +16,14 @@ public class JsonDataConverter implements CommandLineRunner {
     private List<FireStation> fireStations = new ArrayList<>();
     private List<MedicalRecord> medicalRecord = new ArrayList<>();
     private static final ObjectMapper mapper = new ObjectMapper();
-    private static JsonDataContainer data;
+    private static JsonDataContainer jsonDataContainer;
 
     public static JsonDataContainer getData(){
-            return data;
+            return jsonDataContainer;
     }
 
-    public static void setData(JsonDataContainer data){
-        data = data;
+    public static void setData(JsonDataContainer jsonDataContainer){
+        JsonDataConverter.jsonDataContainer = jsonDataContainer;
     }
 
     public List<Person> getPersons() {
@@ -70,4 +70,5 @@ public class JsonDataConverter implements CommandLineRunner {
         }
     }
 }
+
 
