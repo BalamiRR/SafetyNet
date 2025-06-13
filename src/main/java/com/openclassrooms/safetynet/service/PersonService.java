@@ -20,4 +20,7 @@ public class PersonService {
         return personRepository.getAllPersons();
     }
 
+    public Boolean savingPerson(Person person){
+        return personRepository.savingPerson(person);
+    }
 }

@@ -21,6 +21,22 @@ public class PersonRepository {
         return data.getPersons();
     }
 
+    public Boolean savingPerson(Person person){
+        boolean personFound = false;
+        if(person.getFirstName() == null || person.getLastName() == null){
+            return false;
+        }
+        for( Person personA : this.getAllPersons()){
+            if(personA.getFirstName().equals(person.getFirstName()) && personA.getLastName().equals(person.getLastName())){
+                personFound = true;
+                break;
+            }
+        }
+        if(!personFound){
+            this.getAllPersons().add(person);
+        }
+        return !personFound;
+    }
 
 
 }
