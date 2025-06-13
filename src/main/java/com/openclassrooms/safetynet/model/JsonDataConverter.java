@@ -11,7 +11,6 @@ import java.util.List;
 
 @Component
 public class JsonDataConverter implements CommandLineRunner {
-
     private List<Person> persons = new ArrayList<>();
     private List<FireStation> fireStations = new ArrayList<>();
     private List<MedicalRecord> medicalRecord = new ArrayList<>();
