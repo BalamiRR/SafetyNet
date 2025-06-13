@@ -39,4 +39,15 @@ public class PersonController {
         return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
+    @DeleteMapping(path="/persons")
+    public ResponseEntity<Boolean> deletePerson(@RequestBody Person person){
+        boolean bool = personService.deletePerson(person);
+        if(bool){
+            logger.info("Person " + person + "is deleted !");
+            return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+        }
+        logger.error("Failed to create : " + person);
+        return new ResponseEntity<>(false, HttpStatus.BAD_GATEWAY);
+    }
+
 }

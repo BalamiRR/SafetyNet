@@ -38,5 +38,16 @@ public class PersonRepository {
         return !personFound;
     }
 
+    public Boolean deletePerson(Person person){
+        if(person.getFirstName() != null && person.getLastName() != null){
+            for( Person personA : this.getAllPersons()){
+                if(personA.getFirstName().equals(person.getFirstName()) && personA.getLastName().equals(person.getLastName())){
+                    return this.getAllPersons().remove(personA);
+                }
+            }
+        }
+
+        return false;
+    }
 
 }
