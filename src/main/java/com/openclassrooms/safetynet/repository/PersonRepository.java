@@ -50,4 +50,20 @@ public class PersonRepository {
         return false;
     }
 
+    public Boolean updatePerson(Person person){
+        if(person.getFirstName() != null && person.getLastName() != null){
+            for( Person personA : this.getAllPersons()){
+                if(personA.getFirstName().equals(person.getFirstName()) && personA.getLastName().equals(person.getLastName())){
+                    personA.setAddress(person.getAddress());
+                    personA.setCity(person.getCity());
+                    personA.setZip(person.getZip());
+                    personA.setPhone(person.getPhone());
+                    personA.setEmail(person.getEmail());
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }

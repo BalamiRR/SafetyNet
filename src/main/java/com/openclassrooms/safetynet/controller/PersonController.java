@@ -46,7 +46,18 @@ public class PersonController {
             logger.info("Person " + person + "is deleted !");
             return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
         }
-        logger.error("Failed to create : " + person);
+        logger.error("Failed to delete : " + person);
+        return new ResponseEntity<>(false, HttpStatus.BAD_GATEWAY);
+    }
+
+    @PutMapping(path="/persons")
+    public ResponseEntity<Boolean> updatePerson(@RequestBody Person person){
+        boolean bool = personService.updatePerson(person);
+        if(bool){
+            logger.info("Person " + person + "is updated !");
+            return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+        }
+        logger.error("Failed to update : " + person);
         return new ResponseEntity<>(false, HttpStatus.BAD_GATEWAY);
     }
 

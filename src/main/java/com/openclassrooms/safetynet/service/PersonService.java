@@ -27,4 +27,8 @@ public class PersonService {
     public Boolean deletePerson(Person person){
         return personRepository.deletePerson(person);
     }
+
+    public Boolean updatePerson(Person person){
+        return personRepository.updatePerson(person);
+    }
 }
