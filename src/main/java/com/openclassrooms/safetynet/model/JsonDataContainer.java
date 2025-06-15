@@ -12,7 +12,7 @@ public class JsonDataContainer {
     }
 
     public List<FireStation> getFirestations() {
-        return firestations;
+        return firestations; 
     }
 
     public List<MedicalRecord> getMedicalrecords() {
