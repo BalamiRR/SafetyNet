@@ -37,31 +37,27 @@ public class PersonRepository {
         return !personFound;
     }
 
-    public Boolean deletePerson(Person person){
-        if(person.getFirstName() != null && person.getLastName() != null){
-            for( Person personA : this.getAllPersons()){
-                if(personA.getFirstName().equals(person.getFirstName()) && personA.getLastName().equals(person.getLastName())){
-                    return this.getAllPersons().remove(personA);
-                }
+    public Boolean deletePerson(String firstName, String lastName){
+        for( Person personA : this.getAllPersons()){
+            if(personA.getFirstName().equals(firstName) && personA.getLastName().equals(lastName)){
+                return this.getAllPersons().remove(personA);
             }
         }
-        return false;
+    return false;
     }
 
-    public Boolean updatePerson(Person person){
-        if(person.getFirstName() != null && person.getLastName() != null){
-            for( Person personA : this.getAllPersons()){
-                if(personA.getFirstName().equals(person.getFirstName()) && personA.getLastName().equals(person.getLastName())){
-                    personA.setAddress(person.getAddress());
-                    personA.setCity(person.getCity());
-                    personA.setZip(person.getZip());
-                    personA.setPhone(person.getPhone());
-                    personA.setEmail(person.getEmail());
-                    return true;
-                }
+    public Boolean updatePerson(String firstName, String lastName, Person person){
+        for( Person personA : this.getAllPersons()){
+            if(personA.getFirstName().equalsIgnoreCase(firstName) && personA.getLastName().equalsIgnoreCase(lastName)){
+                personA.setAddress(person.getAddress());
+                personA.setCity(person.getCity());
+                personA.setZip(person.getZip());
+                personA.setPhone(person.getPhone());
+                personA.setEmail(person.getEmail());
+                return true;
             }
         }
-        return false;
+    return false;
     }
 
 }

@@ -2,62 +2,60 @@ package com.openclassrooms.safetynet.controller;
 
 import com.openclassrooms.safetynet.model.Person;
 import com.openclassrooms.safetynet.service.PersonService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+@Slf4j
 @RestController
+@RequestMapping("/person")
 public class PersonController {
+    private final PersonService personService;
 
-    @Autowired
-    PersonService personService;
-    Logger logger = LoggerFactory.getLogger(getClass());
-
-    @Autowired
     public PersonController(PersonService personService) {
         this.personService = personService;
     }
 
-    @GetMapping("/person")
+    @GetMapping
     public List<Person> getAllPerson() {
         return personService.getAllPersons();
     }
 
-    @PostMapping(path="/persons")
+    @PostMapping
     public ResponseEntity<Boolean> createPerson(@RequestBody Person person){
-        boolean bool = personService.savingPerson(person);
-        if(bool){
-            logger.info("Person " + person + "is created !");
+        boolean success = personService.savingPerson(person);
+        if (success) {
+            log.info("Person {} is created!", person);
             return new ResponseEntity<>(true, HttpStatus.CREATED);
         }
-        logger.error("Failed to create :  " + person);
+        log.error("Failed to create: {}", person);
         return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
-    @DeleteMapping(path="/persons")
-    public ResponseEntity<Boolean> deletePerson(@RequestBody Person person){
-        boolean bool = personService.deletePerson(person);
-        if(bool){
-            logger.info("Person " + person + "is deleted !");
+    @DeleteMapping("/{firstName}/{lastName}")
+    public ResponseEntity<Boolean> deletePerson(@PathVariable String firstName,
+                                                @PathVariable String lastName){
+        boolean success = personService.deletePerson(firstName, lastName);
+        if (success) {
+            log.info("Person {} {} is deleted!", firstName, lastName);
             return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
         }
-        logger.error("Failed to delete : " + person);
+        log.error("Failed to delete: {} {}", firstName, lastName);
         return new ResponseEntity<>(false, HttpStatus.BAD_GATEWAY);
     }
 
-    @PutMapping(path="/persons")
-    public ResponseEntity<Boolean> updatePerson(@RequestBody Person person){
-        boolean bool = personService.updatePerson(person);
-        if(bool){
-            logger.info("Person " + person + "is updated !");
+    @PutMapping("/{firstName}/{lastName}")
+    public ResponseEntity<Boolean> updatePerson( @PathVariable String firstName,
+                                                 @PathVariable String lastName,
+                                                 @RequestBody Person person){
+        boolean success = personService.updatePerson(firstName, lastName, person);
+        if (success) {
+            log.info("Person {} {} is updated! : {}", firstName, lastName, person);
             return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
         }
-        logger.error("Failed to update : " + person);
+        log.error("Failed to update: {} {}", firstName, lastName);
         return new ResponseEntity<>(false, HttpStatus.BAD_GATEWAY);
     }
 

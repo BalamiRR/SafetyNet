@@ -24,11 +24,11 @@ public class PersonService {
         return personRepository.savingPerson(person);
     }
 
-    public Boolean deletePerson(Person person){
-        return personRepository.deletePerson(person);
+    public Boolean deletePerson(String firstName, String lastName){
+        return personRepository.deletePerson(firstName, lastName);
     }
 
-    public Boolean updatePerson(Person person){
-        return personRepository.updatePerson(person);
+    public Boolean updatePerson(String firstName, String lastName, Person person){
+        return personRepository.updatePerson(firstName, lastName, person);
     }
 }
