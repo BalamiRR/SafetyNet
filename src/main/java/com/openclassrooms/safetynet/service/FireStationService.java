@@ -25,5 +25,9 @@ public class FireStationService {
         return fireStationRepository.deleteStation(fireStation);
     }
 
+    public Boolean saveStation(FireStation fireStation){
+        return fireStationRepository.savingStation(fireStation);
+    }
+
 
 }

@@ -20,6 +20,23 @@ public class FireStationRepository {
         return jsonDataConverter.getFireStations();
     }
 
+    public Boolean savingStation(FireStation fireStation){
+        boolean addressFound = false;
+        if(fireStation.getAddress() == null || fireStation.getStation() == null){
+            return false;
+        }
+        for(FireStation fireStationA : this.getAllFireStation()){
+            if(fireStation.getAddress().equals(fireStationA.getAddress()) && fireStationA.getStation() == fireStation.getAddress()){
+                addressFound = true;
+                break;
+            }
+        }
+        if(!addressFound){
+            this.getAllFireStation().add(fireStation);
+        }
+        return !addressFound;
+    }
+
     public Boolean deleteStation(FireStation fireStation){
         if(fireStation.getStation() != null && fireStation.getAddress() != null){
             for(FireStation fireStationA : this.getAllFireStation()){
@@ -31,4 +48,6 @@ public class FireStationRepository {
         }
         return false;
     }
+
+
 }
