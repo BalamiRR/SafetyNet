@@ -38,6 +38,18 @@ public class FireStationController {
         }
     }
 
+    @PutMapping(path = "/firestations")
+    public ResponseEntity<Boolean> updateStation(@RequestBody FireStation fireStation){
+        boolean bool = fireStationService.updateFireStation(fireStation);
+        if(bool){
+            logger.info("The FireStation " + fireStation + "is updated !");
+            return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+        } else{
+            logger.error("The FireStation " + fireStation + "is failed to update it !");
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @DeleteMapping(path = "/firestations")
     public ResponseEntity<Boolean> deleteStation(@RequestBody FireStation fireStation){
         boolean bool = fireStationService.deleteStation(fireStation);

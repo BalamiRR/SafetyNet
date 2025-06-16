@@ -37,6 +37,18 @@ public class FireStationRepository {
         return !addressFound;
     }
 
+    public Boolean updateFireStation(FireStation fireStation){
+        if(fireStation.getAddress() != null && fireStation.getStation() != null){
+            for(FireStation fireStationA : this.getAllFireStation()){
+                if(fireStation.getAddress().equals(fireStationA.getAddress()) && fireStationA.getStation() != fireStation.getAddress()){
+                    fireStationA.setStation(fireStation.getStation());
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public Boolean deleteStation(FireStation fireStation){
         if(fireStation.getStation() != null && fireStation.getAddress() != null){
             for(FireStation fireStationA : this.getAllFireStation()){
