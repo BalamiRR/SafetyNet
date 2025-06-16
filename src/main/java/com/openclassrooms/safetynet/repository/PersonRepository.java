@@ -12,7 +12,6 @@ public class PersonRepository {
     JsonDataConverter data;
 
     @Autowired
-
     public PersonRepository(JsonDataConverter data) {
         this.data = data;
     }

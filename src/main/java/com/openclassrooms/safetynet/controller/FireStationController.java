@@ -31,7 +31,7 @@ public class FireStationController {
         boolean bool = fireStationService.saveStation(fireStation);
         if(bool){
             logger.info("The new FireStation " + fireStation + "is added !");
-            return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(true, HttpStatus.CREATED);
         } else{
             logger.error("FireStation " + fireStation + "is failed to add it !");
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
