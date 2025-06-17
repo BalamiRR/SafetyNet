@@ -2,64 +2,70 @@ package com.openclassrooms.safetynet.controller;
 
 import com.openclassrooms.safetynet.model.FireStation;
 import com.openclassrooms.safetynet.service.FireStationService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
+@RequestMapping("/fireStation")
 public class FireStationController {
-    FireStationService fireStationService;
-    Logger logger = LoggerFactory.getLogger(getClass());
+    private final FireStationService fireStationService;
 
-    @Autowired
     public FireStationController(FireStationService fireStationService){
         this.fireStationService = fireStationService;
     }
 
-    @GetMapping("/firestation")
+    @GetMapping
     public List<FireStation> getAllFireStationService(){
         return fireStationService.getAllFireStations();
     }
 
-    @PostMapping(path = "/firestations")
+    @PostMapping
     public ResponseEntity<Boolean> saveStation(@RequestBody FireStation fireStation){
-        boolean bool = fireStationService.saveStation(fireStation);
-        if(bool){
-            logger.info("The new FireStation " + fireStation + "is added !");
+        boolean success = fireStationService.saveStation(fireStation);
+        if(success){
+            log.info("The new FireStation {} ", fireStation + "is added !");
             return new ResponseEntity<>(true, HttpStatus.CREATED);
         } else{
-            logger.error("FireStation " + fireStation + "is failed to add it !");
+            log.error("FireStation {} ",  fireStation +"is failed to add it !");
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping(path = "/firestations")
+    @PutMapping
     public ResponseEntity<Boolean> updateStation(@RequestBody FireStation fireStation){
-        boolean bool = fireStationService.updateFireStation(fireStation);
-        if(bool){
-            logger.info("The FireStation " + fireStation + "is updated !");
+        boolean success = fireStationService.updateFireStation(fireStation.getAddress(), fireStation);
+        if(success){
+            log.info("The FireStation {} ", fireStation + "is updated !");
             return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
         } else{
-            logger.error("The FireStation " + fireStation + "is failed to update it !");
+            log.error("The FireStation {} ", fireStation + "is failed to update it !");
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @DeleteMapping(path = "/firestations")
-    public ResponseEntity<Boolean> deleteStation(@RequestBody FireStation fireStation){
-        boolean bool = fireStationService.deleteStation(fireStation);
-        if(bool){
-            logger.info("FireStation " + fireStation + "is deleted !");
-            return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
-        } else{
-            logger.error("FireStation " + fireStation + "is failed to delete it !");
-            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+    @DeleteMapping
+    public ResponseEntity<Boolean> deleteStation(@RequestParam(required = false) String address,
+                                                 @RequestParam(required = false) String station){
+        boolean success = false;
+
+        if (address != null) {
+            success = fireStationService.deleteByAddress(address);
+            log.info("Delete by address [{}] result: {}", address, success);
+        } else if (station != null) {
+            success = fireStationService.deleteByStation(station);
+            log.info("Delete by station [{}] result: {}", station, success);
         }
+
+        if (success) {
+            return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+        }
+        log.error("Delete failed for address: {} or station: {}", address, station);
+        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
 }

@@ -2,16 +2,14 @@ package com.openclassrooms.safetynet.repository;
 
 import com.openclassrooms.safetynet.model.FireStation;
 import com.openclassrooms.safetynet.model.JsonDataConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public class FireStationRepository {
-    JsonDataConverter jsonDataConverter;
+    private final JsonDataConverter jsonDataConverter;
 
-    @Autowired
     public FireStationRepository(JsonDataConverter jsonDataConverter){
         this.jsonDataConverter = jsonDataConverter;
     }
@@ -37,13 +35,14 @@ public class FireStationRepository {
         return !addressFound;
     }
 
-    public Boolean updateFireStation(FireStation fireStation){
-        if(fireStation.getAddress() != null && fireStation.getStation() != null){
-            for(FireStation fireStationA : this.getAllFireStation()){
-                if(fireStation.getAddress().equals(fireStationA.getAddress()) && fireStationA.getStation() != fireStation.getAddress()){
-                    fireStationA.setStation(fireStation.getStation());
-                    return true;
-                }
+    public Boolean updateFireStation(String address, FireStation fireStation){
+        if(address == null || fireStation.getStation() == null){
+            return false;
+        }
+        for(FireStation fireStationA : this.getAllFireStation()){
+            if(fireStationA.getAddress().equals(address)){
+                fireStationA.setStation(fireStation.getStation());
+                return true;
             }
         }
         return false;
@@ -61,5 +60,15 @@ public class FireStationRepository {
         return false;
     }
 
+    //DELETE ADDRESS http://localhost:8080/fireStation?address=29 15th St
+    public Boolean deleteByAddress(String address) {
+        return jsonDataConverter.getFireStations()
+                .removeIf(fs -> fs.getAddress().equalsIgnoreCase(address));
+    }
 
+    //DELETE STATION http://localhost:8080/fireStation?station=5
+    public Boolean deleteByStation(String station) {
+        return jsonDataConverter.getFireStations()
+                .removeIf(fs -> fs.getStation().equalsIgnoreCase(station));
+    }
 }
