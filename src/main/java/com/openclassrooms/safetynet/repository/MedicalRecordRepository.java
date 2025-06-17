@@ -2,16 +2,14 @@ package com.openclassrooms.safetynet.repository;
 
 import com.openclassrooms.safetynet.model.JsonDataConverter;
 import com.openclassrooms.safetynet.model.MedicalRecord;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public class MedicalRecordRepository {
-    JsonDataConverter jsonDataConverter;
+    private final JsonDataConverter jsonDataConverter;
 
-    @Autowired
     public MedicalRecordRepository(JsonDataConverter jsonDataConverter){
         this.jsonDataConverter = jsonDataConverter;
     }
