@@ -6,10 +6,9 @@ import java.util.Date;
 import java.util.List;
 
 public class MedicalRecord {
-
     private String firstName;
     private String lastName;
-    @JsonFormat(pattern = "MM/dd/yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birthdate;
     private List<String> medications;
     private List<String> allergies;

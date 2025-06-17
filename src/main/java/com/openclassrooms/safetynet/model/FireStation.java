@@ -1,9 +1,6 @@
 package com.openclassrooms.safetynet.model;
 
 public class FireStation {
-    //"address": "1509 Culver St",
-    //"station": "3"
-
     private String address;
     private String station;
 
