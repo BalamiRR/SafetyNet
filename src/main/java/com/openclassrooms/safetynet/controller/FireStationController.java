@@ -63,9 +63,10 @@ public class FireStationController {
 
         if (success) {
             return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+        }else {
+            log.error("Delete failed for address: {} or station: {}", address, station);
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         }
-        log.error("Delete failed for address: {} or station: {}", address, station);
-        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
 
 }

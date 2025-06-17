@@ -24,7 +24,7 @@ public class FireStationRepository {
             return false;
         }
         for(FireStation fireStationA : this.getAllFireStation()){
-            if(fireStation.getAddress().equals(fireStationA.getAddress()) && fireStationA.getStation() == fireStation.getAddress()){
+            if(fireStation.getAddress().equals(fireStationA.getAddress()) && fireStationA.getStation() == fireStation.getStation()){
                 addressFound = true;
                 break;
             }

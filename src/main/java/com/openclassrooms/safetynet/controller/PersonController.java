@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Slf4j
@@ -29,9 +30,11 @@ public class PersonController {
         if (success) {
             log.info("Person {} is created!", person);
             return new ResponseEntity<>(true, HttpStatus.CREATED);
+        }else{
+            log.error("Failed to create: {}", person);
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         }
-        log.error("Failed to create: {}", person);
-        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+
     }
 
     @DeleteMapping("/{firstName}/{lastName}")
@@ -41,9 +44,10 @@ public class PersonController {
         if (success) {
             log.info("Person {} {} is deleted!", firstName, lastName);
             return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+        }else{
+            log.error("Failed to delete: {} {}", firstName, lastName);
+            return new ResponseEntity<>(false, HttpStatus.BAD_GATEWAY);
         }
-        log.error("Failed to delete: {} {}", firstName, lastName);
-        return new ResponseEntity<>(false, HttpStatus.BAD_GATEWAY);
     }
 
     @PutMapping("/{firstName}/{lastName}")
@@ -54,9 +58,11 @@ public class PersonController {
         if (success) {
             log.info("Person {} {} is updated! : {}", firstName, lastName, person);
             return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+        }else {
+            log.error("Failed to update: {} {}", firstName, lastName);
+            return new ResponseEntity<>(false, HttpStatus.BAD_GATEWAY);
         }
-        log.error("Failed to update: {} {}", firstName, lastName);
-        return new ResponseEntity<>(false, HttpStatus.BAD_GATEWAY);
+
     }
 
 }
