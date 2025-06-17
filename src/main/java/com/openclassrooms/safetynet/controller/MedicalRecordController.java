@@ -49,4 +49,17 @@ public class MedicalRecordController {
         }
     }
 
+    @DeleteMapping("/{firstName}/{lastName}")
+    public ResponseEntity<Boolean> deleteMedicalRecord(@PathVariable String firstName,
+                                                       @PathVariable String lastName){
+        Boolean success = medicalRecordService.deleteMedicalRecord(firstName, lastName);
+        if(success){
+            log.info("The medicalRecord {} {} is deleted!", firstName, lastName);
+            return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+        }else {
+            log.error("Failed to delete: {} {}", firstName, lastName);
+            return new ResponseEntity<>(false, HttpStatus.BAD_GATEWAY);
+        }
+    }
+
 }

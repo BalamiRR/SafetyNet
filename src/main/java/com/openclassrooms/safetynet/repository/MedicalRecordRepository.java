@@ -2,7 +2,6 @@ package com.openclassrooms.safetynet.repository;
 
 import com.openclassrooms.safetynet.model.JsonDataConverter;
 import com.openclassrooms.safetynet.model.MedicalRecord;
-import com.openclassrooms.safetynet.service.MedicalRecordService;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -43,6 +42,18 @@ public class MedicalRecordRepository {
                 medicalRecordA.setMedications(medicalRecord.getMedications());
                 medicalRecordA.setAllergies(medicalRecord.getAllergies());
                 return true;
+            }
+        }
+        return false;
+    }
+
+    public Boolean deleteMedicalRecord(String firstName, String lastName){
+        if(firstName == null && lastName == null){
+            return false;
+        }
+        for(MedicalRecord medicalRecordA : this.getAllMedicalRecord()){
+            if(medicalRecordA.getFirstName().equals(firstName) && medicalRecordA.getLastName().equals(lastName)){
+                return this.getAllMedicalRecord().remove(medicalRecordA);
             }
         }
         return false;
