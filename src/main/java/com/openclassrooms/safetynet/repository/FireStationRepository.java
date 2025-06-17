@@ -24,7 +24,7 @@ public class FireStationRepository {
             return false;
         }
         for(FireStation fireStationA : this.getAllFireStation()){
-            if(fireStation.getAddress().equals(fireStationA.getAddress()) && fireStationA.getStation() == fireStation.getStation()){
+            if(fireStationA.getAddress().equals(fireStation.getAddress()) && fireStationA.getStation() == fireStationA.getStation()){
                 addressFound = true;
                 break;
             }
@@ -35,6 +35,7 @@ public class FireStationRepository {
         return !addressFound;
     }
 
+    //http://localhost:8080/fireStation?address=1509 Culver St
     public Boolean updateFireStation(String address, FireStation fireStation){
         if(address == null || fireStation.getStation() == null){
             return false;
@@ -48,19 +49,8 @@ public class FireStationRepository {
         return false;
     }
 
-    public Boolean deleteStation(FireStation fireStation){
-        if(fireStation.getStation() != null && fireStation.getAddress() != null){
-            for(FireStation fireStationA : this.getAllFireStation()){
-                if(fireStation.getAddress().equals(fireStationA.getAddress())){
-                    this.getAllFireStation().remove(fireStationA);
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     //DELETE ADDRESS http://localhost:8080/fireStation?address=29 15th St
+    //DELETE http://localhost:8080/firestation?address=1509%20Culver%20St&station=3
     public Boolean deleteByAddress(String address) {
         return jsonDataConverter.getFireStations()
                 .removeIf(fs -> fs.getAddress().equalsIgnoreCase(address));

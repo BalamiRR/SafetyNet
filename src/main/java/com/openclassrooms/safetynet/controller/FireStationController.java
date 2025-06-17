@@ -52,7 +52,6 @@ public class FireStationController {
     public ResponseEntity<Boolean> deleteStation(@RequestParam(required = false) String address,
                                                  @RequestParam(required = false) String station){
         boolean success = false;
-
         if (address != null) {
             success = fireStationService.deleteByAddress(address);
             log.info("Delete by address [{}] result: {}", address, success);

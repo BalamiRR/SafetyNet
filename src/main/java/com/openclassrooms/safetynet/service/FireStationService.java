@@ -18,10 +18,6 @@ public class FireStationService {
         return fireStationRepository.getAllFireStation();
     }
 
-    public Boolean deleteStation(FireStation fireStation){
-        return fireStationRepository.deleteStation(fireStation);
-    }
-
     public Boolean updateFireStation(String address, FireStation fireStation){
         return fireStationRepository.updateFireStation(address, fireStation);
     }
