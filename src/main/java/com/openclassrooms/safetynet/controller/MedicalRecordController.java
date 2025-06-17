@@ -26,13 +26,27 @@ public class MedicalRecordController {
 
     @PostMapping
     public ResponseEntity<Boolean> saveMedicalRecord(@RequestBody MedicalRecord medicalRecord){
-        Boolean bool = medicalRecordService.saveMedicalRecord(medicalRecord);
-        if(bool){
+        Boolean success = medicalRecordService.saveMedicalRecord(medicalRecord);
+        if(success){
             log.info("The new MedicalRecord {} ", medicalRecord + "is added !");
             return new ResponseEntity<>(true, HttpStatus.CREATED);
         }
         log.error("The MedicalRecord {} ", medicalRecord + "is failed to add it !");
         return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/{firstName}/{lastName}")
+    public ResponseEntity<Boolean> updateMedicalRecord(@PathVariable String firstName,
+                                                       @PathVariable String lastName,
+                                                       @RequestBody MedicalRecord medicalRecord){
+        Boolean success = medicalRecordService.updateMedicalRecord(firstName, lastName, medicalRecord);
+        if(success){
+            log.info("The medicalRecord {} {} {} ", firstName, lastName, medicalRecord + "is updated !");
+            return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
+        }else {
+            log.error("Failed to update : {} {} ", firstName, lastName);
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

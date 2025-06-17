@@ -21,4 +21,8 @@ public class MedicalRecordService {
     public Boolean saveMedicalRecord(MedicalRecord medicalRecord){
         return medicalRecordRepository.saveMedicalRecord(medicalRecord);
     }
+
+    public Boolean updateMedicalRecord(String firstName, String lastName, MedicalRecord medicalRecord){
+        return medicalRecordRepository.updateMedicalRecord(firstName, lastName, medicalRecord);
+    }
 }
