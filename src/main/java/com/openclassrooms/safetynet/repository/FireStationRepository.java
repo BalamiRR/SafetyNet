@@ -4,7 +4,9 @@ import com.openclassrooms.safetynet.model.FireStation;
 import com.openclassrooms.safetynet.model.JsonDataConverter;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class FireStationRepository {
@@ -50,7 +52,7 @@ public class FireStationRepository {
     }
 
     //DELETE ADDRESS http://localhost:8080/fireStation?address=29 15th St
-    //DELETE http://localhost:8080/firestation?address=1509%20Culver%20St&station=3
+    //DELETE ADDRESS http://localhost:8080/firestation?address=1509%20Culver%20St&station=3
     public Boolean deleteByAddress(String address) {
         return jsonDataConverter.getFireStations()
                 .removeIf(fs -> fs.getAddress().equalsIgnoreCase(address));
@@ -60,5 +62,23 @@ public class FireStationRepository {
     public Boolean deleteByStation(String station) {
         return jsonDataConverter.getFireStations()
                 .removeIf(fs -> fs.getStation().equalsIgnoreCase(station));
+    }
+
+    public Set<FireStation> getStationsByNumber(int stationNumber){
+        Set<FireStation> set = new HashSet<>();
+        for(FireStation fireStationA : this.getAllFireStation()){
+            if(Integer.parseInt(fireStationA.getStation()) == stationNumber){
+                set.add(fireStationA);
+            }
+        }
+        return set;
+    }
+
+    public Set<String> findAllAddresses(Set<FireStation> stations){
+        Set<String> address = new HashSet<>();
+        for(FireStation fireStationA : this.getAllFireStation()){
+            address.add(fireStationA.getStation());
+        }
+        return address;
     }
 }

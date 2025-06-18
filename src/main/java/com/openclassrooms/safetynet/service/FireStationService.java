@@ -5,7 +5,6 @@ import com.openclassrooms.safetynet.repository.FireStationRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 @Service
 public class FireStationService {
     private final FireStationRepository fireStationRepository;
@@ -33,6 +32,5 @@ public class FireStationService {
     public Boolean saveStation(FireStation fireStation){
         return fireStationRepository.savingStation(fireStation);
     }
-
 
 }
