@@ -3,6 +3,8 @@ package com.openclassrooms.safetynet.service;
 import com.openclassrooms.safetynet.model.Person;
 import com.openclassrooms.safetynet.repository.PersonRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.LinkedHashSet;
 import java.util.List;
 
 @Service
@@ -28,4 +30,9 @@ public class PersonService {
     public Boolean updatePerson(String firstName, String lastName, Person person){
         return personRepository.updatePerson(firstName, lastName, person);
     }
+
+    public LinkedHashSet<String> getEmailsByCity(String city){
+        return personRepository.getEmailsByCity(city);
+    }
+
 }

@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 
 @Slf4j
@@ -62,7 +63,18 @@ public class PersonController {
             log.error("Failed to update: {} {}", firstName, lastName);
             return new ResponseEntity<>(false, HttpStatus.BAD_GATEWAY);
         }
+    }
 
+    @RequestMapping(path = "/communityEmail", method = RequestMethod.GET)
+    public ResponseEntity<Object> getEmailsByCity(@RequestParam(required = false) String city){
+        LinkedHashSet<String> emails = personService.getEmailsByCity(city);
+        if(emails != null){
+            log.info(" {} is showed! : ",city);
+            return new ResponseEntity<>(emails, HttpStatus.ACCEPTED);
+        }else {
+            log.error("Failed to show the city: {} ", city);
+            return new ResponseEntity<>(emails, HttpStatus.NOT_FOUND);
+        }
     }
 
 }

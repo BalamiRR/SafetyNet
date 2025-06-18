@@ -4,6 +4,7 @@ import com.openclassrooms.safetynet.model.JsonDataConverter;
 import com.openclassrooms.safetynet.model.Person;
 import org.springframework.stereotype.Repository;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 
 @Repository
@@ -16,6 +17,17 @@ public class PersonRepository {
 
     public List<Person> getAllPersons(){
         return data.getPersons();
+    }
+
+    public LinkedHashSet<String> getEmailsByCity(String city){
+        LinkedHashSet<String> list = new LinkedHashSet<>();
+        for( Person personA : this.getAllPersons()){
+            if(personA.getCity().equals(city)){
+                list.add(personA.getEmail());
+            }
+        }
+        if(list.isEmpty()) return null;
+        return list;
     }
 
     public Boolean savingPerson(Person person){
@@ -57,5 +69,6 @@ public class PersonRepository {
         }
     return false;
     }
+
 
 }
