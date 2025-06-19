@@ -59,7 +59,6 @@ public class FireStationController {
             success = fireStationService.deleteByStation(station);
             log.info("Delete by station [{}] result: {}", station, success);
         }
-
         if (success) {
             return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
         }else {
