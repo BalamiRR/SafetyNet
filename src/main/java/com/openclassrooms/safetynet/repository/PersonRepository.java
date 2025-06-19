@@ -23,21 +23,16 @@ public class PersonRepository {
         return data.getPersons();
     }
 
-    public List<FireStation> getAllFireStations(){
-        return fireStationRepository.getAllFireStation();
-    }
-
     public LinkedHashSet<String> getAllPhoneNumbers(int fireStationNumber){
         LinkedHashSet<String> phones = new LinkedHashSet<>();
         List<String> addresses = new ArrayList<>();
-        List<FireStation> stations = this.getAllFireStations();
-        for(FireStation fireStation : stations){
+
+        for(FireStation fireStation : fireStationRepository.getAllFireStation()){
             if(fireStation.getStation() == fireStationNumber){
                 addresses.add(fireStation.getAddress());
             }
         }
         if(addresses.isEmpty()) return null;
-
         for(String address : addresses){
             for(Person personA : this.getAllPersons()){
                 if(personA.getAddress().equals(address)){
