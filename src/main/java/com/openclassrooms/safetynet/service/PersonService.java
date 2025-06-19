@@ -35,4 +35,8 @@ public class PersonService {
         return personRepository.getEmailsByCity(city);
     }
 
+    public LinkedHashSet<String> getAllPhoneNumbers(int fireStationNumber){
+        return personRepository.getAllPhoneNumbers(fireStationNumber);
+    }
+
 }

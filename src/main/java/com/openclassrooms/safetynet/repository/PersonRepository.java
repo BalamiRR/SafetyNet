@@ -1,22 +1,51 @@
 package com.openclassrooms.safetynet.repository;
 
+import com.openclassrooms.safetynet.model.FireStation;
 import com.openclassrooms.safetynet.model.JsonDataConverter;
 import com.openclassrooms.safetynet.model.Person;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
 @Repository
 public class PersonRepository {
     private final JsonDataConverter data;
+    private final FireStationRepository fireStationRepository;
 
-    public PersonRepository(JsonDataConverter data) {
+    public PersonRepository(JsonDataConverter data, FireStationRepository fireStationRepository) {
         this.data = data;
+        this.fireStationRepository = fireStationRepository;
     }
 
     public List<Person> getAllPersons(){
         return data.getPersons();
+    }
+
+    public List<FireStation> getAllFireStations(){
+        return fireStationRepository.getAllFireStation();
+    }
+
+    public LinkedHashSet<String> getAllPhoneNumbers(int fireStationNumber){
+        LinkedHashSet<String> phones = new LinkedHashSet<>();
+        List<String> addresses = new ArrayList<>();
+        List<FireStation> stations = this.getAllFireStations();
+        for(FireStation fireStation : stations){
+            if(fireStation.getStation() == fireStationNumber){
+                addresses.add(fireStation.getAddress());
+            }
+        }
+        if(addresses.isEmpty()) return null;
+
+        for(String address : addresses){
+            for(Person personA : this.getAllPersons()){
+                if(personA.getAddress().equals(address)){
+                    phones.add(personA.getPhone());
+                }
+            }
+        }
+        return phones;
     }
 
     // http://localhost:8080/person/communityEmail?city=Culver

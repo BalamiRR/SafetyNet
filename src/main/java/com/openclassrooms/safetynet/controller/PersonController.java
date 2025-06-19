@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @RestController
@@ -74,6 +75,18 @@ public class PersonController {
         }else {
             log.error("Failed to show the city: {} ", city);
             return new ResponseEntity<>(emails, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(path="/phoneAlert", method = RequestMethod.GET)
+    public ResponseEntity<Set<String>> getAllPhoneNumbers(@RequestParam(required = false) int fireStationNumber){
+        LinkedHashSet<String> phones = personService.getAllPhoneNumbers(fireStationNumber);
+        if(phones != null){
+            log.info(" FireStation {} :", fireStationNumber + " is showed");
+            return new ResponseEntity<>(phones, HttpStatus.OK);
+        }else {
+            log.error("FireStation {} :", fireStationNumber + " is not showed");
+            return new ResponseEntity<>(phones, HttpStatus.NOT_FOUND);
         }
     }
 
