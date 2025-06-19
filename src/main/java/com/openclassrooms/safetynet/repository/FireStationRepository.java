@@ -22,7 +22,7 @@ public class FireStationRepository {
 
     public Boolean savingStation(FireStation fireStation){
         boolean addressFound = false;
-        if(fireStation.getAddress() == null || fireStation.getStation() == null){
+        if(fireStation.getAddress() == null || fireStation.getStation() == 0){
             return false;
         }
         for(FireStation fireStationA : this.getAllFireStation()){
@@ -39,7 +39,7 @@ public class FireStationRepository {
 
     //http://localhost:8080/fireStation?address=1509 Culver St
     public Boolean updateFireStation(String address, FireStation fireStation){
-        if(address == null || fireStation.getStation() == null){
+        if(address == null || fireStation.getStation() == 0){
             return false;
         }
         for(FireStation fireStationA : this.getAllFireStation()){
@@ -61,13 +61,13 @@ public class FireStationRepository {
     //DELETE STATION http://localhost:8080/fireStation?station=5
     public Boolean deleteByStation(String station) {
         return jsonDataConverter.getFireStations()
-                .removeIf(fs -> fs.getStation().equalsIgnoreCase(station));
+                .removeIf(fs -> String.valueOf(fs.getStation()).equalsIgnoreCase(station));
     }
 
     public Set<FireStation> getStationsByNumber(int stationNumber){
         Set<FireStation> set = new HashSet<>();
         for(FireStation fireStationA : this.getAllFireStation()){
-            if(Integer.parseInt(fireStationA.getStation()) == stationNumber){
+            if(fireStationA.getStation()== stationNumber){
                 set.add(fireStationA);
             }
         }
@@ -77,7 +77,7 @@ public class FireStationRepository {
     public Set<String> findAllAddresses(Set<FireStation> stations){
         Set<String> address = new HashSet<>();
         for(FireStation fireStationA : this.getAllFireStation()){
-            address.add(fireStationA.getStation());
+            address.add(fireStationA.getAddress());
         }
         return address;
     }
