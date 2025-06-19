@@ -19,15 +19,16 @@ public class PersonRepository {
         return data.getPersons();
     }
 
+    // http://localhost:8080/person/communityEmail?city=Culver
     public LinkedHashSet<String> getEmailsByCity(String city){
-        LinkedHashSet<String> list = new LinkedHashSet<>();
-        for( Person personA : this.getAllPersons()){
+        LinkedHashSet<String> set = new LinkedHashSet<>();
+        for(Person personA : this.getAllPersons()){
             if(personA.getCity().equals(city)){
-                list.add(personA.getEmail());
+                set.add(personA.getEmail());
             }
         }
-        if(list.isEmpty()) return null;
-        return list;
+        if(set.isEmpty()) return null;
+        return set;
     }
 
     public Boolean savingPerson(Person person){
