@@ -63,28 +63,6 @@ public class PersonController {
         }
     }
 
-    @RequestMapping(path = "/communityEmail", method = RequestMethod.GET)
-    public ResponseEntity<Object> getEmailsByCity(@RequestParam(required = false) String city){
-        LinkedHashSet<String> emails = personService.getEmailsByCity(city);
-        if(emails != null){
-            log.info(" {} is showed! : ",city);
-            return new ResponseEntity<>(emails, HttpStatus.ACCEPTED);
-        }else {
-            log.error("Failed to show the city: {} ", city);
-            return new ResponseEntity<>(emails, HttpStatus.NOT_FOUND);
-        }
-    }
 
-    @RequestMapping(path="/phoneAlert", method = RequestMethod.GET)
-    public ResponseEntity<Object> getAllPhoneNumbers(@RequestParam(required = false) int fireStationNumber){
-        LinkedHashSet<String> phones = personService.getAllPhoneNumbers(fireStationNumber);
-        if(phones != null){
-            log.info(" FireStation {} :", fireStationNumber + " is showed");
-            return new ResponseEntity<>(phones, HttpStatus.OK);
-        }else {
-            log.error("FireStation {} :", fireStationNumber + " is not showed");
-            return new ResponseEntity<>(phones, HttpStatus.NOT_FOUND);
-        }
-    }
 
 }

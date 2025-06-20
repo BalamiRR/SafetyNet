@@ -1,60 +1,19 @@
 package com.openclassrooms.safetynet.repository;
 
-import com.openclassrooms.safetynet.model.FireStation;
 import com.openclassrooms.safetynet.model.JsonDataConverter;
 import com.openclassrooms.safetynet.model.Person;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 
-import static com.openclassrooms.safetynet.model.JsonData.person;
-
+@RequiredArgsConstructor
 @Repository
 public class PersonRepository {
     private final JsonDataConverter data;
-    private final FireStationRepository fireStationRepository;
-
-    public PersonRepository(JsonDataConverter data, FireStationRepository fireStationRepository) {
-        this.data = data;
-        this.fireStationRepository = fireStationRepository;
-    }
 
     public List<Person> getAllPersons(){
         return data.getPersons();
-    }
-
-    public LinkedHashSet<String> getAllPhoneNumbers(int fireStationNumber){
-        LinkedHashSet<String> phones = new LinkedHashSet<>();
-        List<String> addresses = new ArrayList<>();
-
-        for(FireStation fireStation : fireStationRepository.getAllFireStation()){
-            if(fireStation.getStation() == fireStationNumber){
-                addresses.add(fireStation.getAddress());
-            }
-        }
-        if(addresses.isEmpty()) return null;
-        for(String address : addresses){
-            for(Person personA : this.getAllPersons()){
-                if(personA.getAddress().equals(address)){
-                    phones.add(personA.getPhone());
-                }
-            }
-        }
-        return phones;
-    }
-
-    // http://localhost:8080/person/communityEmail?city=Culver
-    public LinkedHashSet<String> getEmailsByCity(String city){
-        LinkedHashSet<String> set = new LinkedHashSet<>();
-        for(Person personA : this.getAllPersons()){
-            if(personA.getCity().equals(city)){
-                set.add(personA.getEmail());
-            }
-        }
-        if(set.isEmpty()) return null;
-        return set;
     }
 
     public Boolean savingPerson(Person person){
