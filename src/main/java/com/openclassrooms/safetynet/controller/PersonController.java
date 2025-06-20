@@ -2,6 +2,7 @@ package com.openclassrooms.safetynet.controller;
 
 import com.openclassrooms.safetynet.model.Person;
 import com.openclassrooms.safetynet.service.PersonService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,17 +10,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/person")
 public class PersonController {
     private final PersonService personService;
-
-    public PersonController(PersonService personService) {
-        this.personService = personService;
-    }
 
     @GetMapping
     public List<Person> getAllPerson() {
@@ -28,7 +25,7 @@ public class PersonController {
 
     @PostMapping
     public ResponseEntity<Boolean> createPerson(@RequestBody Person person){
-        boolean success = personService.savingPerson(person);
+        boolean success = personService.savePerson(person);
         if (success) {
             log.info("Person {} is created!", person);
             return new ResponseEntity<>(true, HttpStatus.CREATED);
@@ -79,7 +76,7 @@ public class PersonController {
     }
 
     @RequestMapping(path="/phoneAlert", method = RequestMethod.GET)
-    public ResponseEntity<Set<String>> getAllPhoneNumbers(@RequestParam(required = false) int fireStationNumber){
+    public ResponseEntity<Object> getAllPhoneNumbers(@RequestParam(required = false) int fireStationNumber){
         LinkedHashSet<String> phones = personService.getAllPhoneNumbers(fireStationNumber);
         if(phones != null){
             log.info(" FireStation {} :", fireStationNumber + " is showed");

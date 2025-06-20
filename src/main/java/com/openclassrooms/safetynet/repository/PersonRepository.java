@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import static com.openclassrooms.safetynet.model.JsonData.person;
+
 @Repository
 public class PersonRepository {
     private final JsonDataConverter data;

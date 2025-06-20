@@ -19,7 +19,7 @@ public class PersonService {
         return personRepository.getAllPersons();
     }
 
-    public Boolean savingPerson(Person person){
+    public Boolean savePerson(Person person){
         return personRepository.savingPerson(person);
     }
 
