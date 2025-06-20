@@ -2,17 +2,15 @@ package com.openclassrooms.safetynet.repository;
 
 import com.openclassrooms.safetynet.model.JsonDataConverter;
 import com.openclassrooms.safetynet.model.MedicalRecord;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Repository
 public class MedicalRecordRepository {
     private final JsonDataConverter jsonDataConverter;
-
-    public MedicalRecordRepository(JsonDataConverter jsonDataConverter){
-        this.jsonDataConverter = jsonDataConverter;
-    }
 
     public List<MedicalRecord> getAllMedicalRecord(){
         return jsonDataConverter.getMedicalRecord();

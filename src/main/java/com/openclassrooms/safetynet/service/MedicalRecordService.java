@@ -2,17 +2,15 @@ package com.openclassrooms.safetynet.service;
 
 import com.openclassrooms.safetynet.model.MedicalRecord;
 import com.openclassrooms.safetynet.repository.MedicalRecordRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class MedicalRecordService {
     private final MedicalRecordRepository medicalRecordRepository;
-
-    public MedicalRecordService(MedicalRecordRepository medicalRecordRepository){
-        this.medicalRecordRepository = medicalRecordRepository;
-    }
 
     public List<MedicalRecord> getAllMedicalRecord(){
         return medicalRecordRepository.getAllMedicalRecord();

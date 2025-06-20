@@ -2,6 +2,7 @@ package com.openclassrooms.safetynet.controller;
 
 import com.openclassrooms.safetynet.model.MedicalRecord;
 import com.openclassrooms.safetynet.service.MedicalRecordService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,15 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Slf4j
 @RestController
 @RequestMapping("medicalRecord")
 public class MedicalRecordController {
     private final MedicalRecordService medicalRecordService;
-
-    public MedicalRecordController(MedicalRecordService medicalRecordService){
-        this.medicalRecordService = medicalRecordService;
-    }
 
     @GetMapping
     public List<MedicalRecord> getAllMedicalRecord(){
