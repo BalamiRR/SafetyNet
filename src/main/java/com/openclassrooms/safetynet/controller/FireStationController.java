@@ -2,6 +2,7 @@ package com.openclassrooms.safetynet.controller;
 
 import com.openclassrooms.safetynet.model.FireStation;
 import com.openclassrooms.safetynet.service.FireStationService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,15 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Slf4j
 @RestController
 @RequestMapping("/fireStation")
 public class FireStationController {
     private final FireStationService fireStationService;
-
-    public FireStationController(FireStationService fireStationService){
-        this.fireStationService = fireStationService;
-    }
 
     @GetMapping
     public List<FireStation> getAllFireStationService(){

@@ -2,16 +2,15 @@ package com.openclassrooms.safetynet.service;
 
 import com.openclassrooms.safetynet.model.FireStation;
 import com.openclassrooms.safetynet.repository.FireStationRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+@RequiredArgsConstructor
 @Service
 public class FireStationService {
     private final FireStationRepository fireStationRepository;
-
-    public FireStationService(FireStationRepository fireStationRepository){
-        this.fireStationRepository = fireStationRepository;
-    }
 
     public List<FireStation> getAllFireStations(){
         return fireStationRepository.getAllFireStation();

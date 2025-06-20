@@ -2,19 +2,17 @@ package com.openclassrooms.safetynet.repository;
 
 import com.openclassrooms.safetynet.model.FireStation;
 import com.openclassrooms.safetynet.model.JsonDataConverter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@RequiredArgsConstructor
 @Repository
 public class FireStationRepository {
     private final JsonDataConverter jsonDataConverter;
-
-    public FireStationRepository(JsonDataConverter jsonDataConverter){
-        this.jsonDataConverter = jsonDataConverter;
-    }
 
     public List<FireStation> getAllFireStation(){
         return jsonDataConverter.getFireStations();
