@@ -1,5 +1,6 @@
 package com.openclassrooms.safetynet.controller;
 
+import com.openclassrooms.safetynet.dto.ChildAlertDto;
 import com.openclassrooms.safetynet.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,7 @@ public class SearchController {
 
     private final SearchService searchService;
 
-    @RequestMapping(path = "/communityEmail", method = RequestMethod.GET)
+    @RequestMapping(path="/communityEmail", method = RequestMethod.GET)
     public ResponseEntity<Set<String>> getEmailsByCity(@RequestParam(required = false) String city){
         LinkedHashSet<String> emails = searchService.getEmailsByCity(city);
         if(emails != null){
@@ -41,6 +42,18 @@ public class SearchController {
         }else {
             log.error("FireStation {} :", fireStationNumber + " is not showed");
             return new ResponseEntity<>(phones, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(path="/childAlert", method = RequestMethod.GET)
+    public ResponseEntity<ChildAlertDto> findChildByAddress(@RequestParam String address){
+        ChildAlertDto child = searchService.findChildByAddress(address);
+        if(child != null){
+            log.info("Get children alert by address: {}", address);
+            return new ResponseEntity<>(child, HttpStatus.OK);
+        }else {
+            log.error("Error getting children alert by address {} :", address);
+            return new ResponseEntity<>(child, HttpStatus.NOT_FOUND);
         }
     }
 }
