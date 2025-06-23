@@ -5,6 +5,7 @@ import com.openclassrooms.safetynet.model.Person;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -56,5 +57,15 @@ public class PersonRepository {
     return false;
     }
 
+    public List<Person> findPersonByAddress(String address){
+        List<Person> persons = this.getAllPersons();
+        List<Person> list = new ArrayList<>();
+        for(Person person : persons){
+            if(person.getAddress().equals(address)){
+                list.add(person);
+            }
+        }
+        return list;
+    }
 
 }
