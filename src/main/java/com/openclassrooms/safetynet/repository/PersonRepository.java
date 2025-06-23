@@ -68,4 +68,14 @@ public class PersonRepository {
         return list;
     }
 
+    public Person findPersonByName(String firstName, String lastName){
+        List<Person> persons = this.getAllPersons();
+        for(Person person : persons){
+            if(person.getFirstName().equals(firstName) && person.getLastName().equals(lastName)){
+                return person;
+            }
+        }
+        return null;
+    }
+
 }
