@@ -2,6 +2,8 @@ package com.openclassrooms.safetynet.service;
 
 import com.openclassrooms.safetynet.dto.ChildAlertDto;
 import com.openclassrooms.safetynet.dto.ChildDto;
+import com.openclassrooms.safetynet.dto.PersonInfoLastName;
+import com.openclassrooms.safetynet.model.MedicalRecord;
 import com.openclassrooms.safetynet.model.Person;
 import com.openclassrooms.safetynet.repository.PersonRepository;
 import com.openclassrooms.safetynet.repository.SearchRepository;
@@ -49,6 +51,31 @@ public class SearchService {
         childAlert.setChildren(childDtos);
         childAlert.setFamilyMembers(family);
         return childAlert;
+    }
+
+    public List<PersonInfoLastName> getAllPersonsByLastName(String lastName) {
+        List<PersonInfoLastName> resultList = new ArrayList<>();
+        List<Person> persons = personRepository.getAllPersons();
+        for (Person person : persons) {
+            if (person.getLastName().equalsIgnoreCase(lastName)) {
+                MedicalRecord record = searchRepository.findMedicalRecordByName(person.getFirstName(), person.getLastName());
+
+                if (record != null) {
+                    PersonInfoLastName info = new PersonInfoLastName();
+                    info.setFirstName(person.getFirstName());
+                    info.setLastName(person.getLastName());
+                    info.setAddress(person.getAddress());
+                    info.setEmail(person.getEmail());
+                    info.setAge(searchRepository.getAge(record.getBirthdate()));
+                    info.setMedications(record.getMedications());
+                    info.setAllergies(record.getAllergies());
+
+                    resultList.add(info);
+                }
+            }
+        }
+
+        return resultList.isEmpty() ? null : resultList;
     }
 
 

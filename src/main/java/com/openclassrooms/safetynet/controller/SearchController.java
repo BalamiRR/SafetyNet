@@ -1,6 +1,7 @@
 package com.openclassrooms.safetynet.controller;
 
 import com.openclassrooms.safetynet.dto.ChildAlertDto;
+import com.openclassrooms.safetynet.dto.PersonInfoLastName;
 import com.openclassrooms.safetynet.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Slf4j
@@ -54,6 +56,19 @@ public class SearchController {
         }else {
             log.error("Error getting children alert by address {} :", address);
             return new ResponseEntity<>(child, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(path = "/personInfolastName", method = RequestMethod.GET)
+    public ResponseEntity<List<PersonInfoLastName>> getPersonsByLastName(@RequestParam String lastName) {
+        List<PersonInfoLastName> persons = searchService.getAllPersonsByLastName(lastName);
+
+        if (persons != null) {
+            log.info("Found {} person(s) with lastName: {}", persons.size(), lastName);
+            return new ResponseEntity<>(persons, HttpStatus.OK);
+        } else {
+            log.error("No persons found with lastName: {}", lastName);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }
