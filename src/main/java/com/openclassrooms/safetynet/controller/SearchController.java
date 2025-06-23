@@ -1,6 +1,5 @@
 package com.openclassrooms.safetynet.controller;
 
-import com.openclassrooms.safetynet.service.PersonService;
 import com.openclassrooms.safetynet.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Slf4j
 @RestController
@@ -21,7 +21,7 @@ public class SearchController {
     private final SearchService searchService;
 
     @RequestMapping(path = "/communityEmail", method = RequestMethod.GET)
-    public ResponseEntity<Object> getEmailsByCity(@RequestParam(required = false) String city){
+    public ResponseEntity<Set<String>> getEmailsByCity(@RequestParam(required = false) String city){
         LinkedHashSet<String> emails = searchService.getEmailsByCity(city);
         if(emails != null){
             log.info(" {} is showed! : ",city);
@@ -33,7 +33,7 @@ public class SearchController {
     }
 
     @RequestMapping(path="/phoneAlert", method = RequestMethod.GET)
-    public ResponseEntity<Object> getAllPhoneNumbers(@RequestParam(required = false) int fireStationNumber){
+    public ResponseEntity<Set<String>> getAllPhoneNumbers(@RequestParam(required = false) int fireStationNumber){
         LinkedHashSet<String> phones = searchService.getAllPhoneNumbers(fireStationNumber);
         if(phones != null){
             log.info(" FireStation {} :", fireStationNumber + " is showed");
