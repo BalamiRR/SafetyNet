@@ -1,13 +1,12 @@
 package com.openclassrooms.safetynet.dto;
 
-import java.util.Date;
 import java.util.List;
 
 public class PersonInfoLastName {
     private String firstName;
     private String lastName;
     private String address;
-    private Date age;
+    private int age;
     private String email;
     private List<String> medications;
     private List<String> allergies;
@@ -16,7 +15,7 @@ public class PersonInfoLastName {
 
     }
 
-    public PersonInfoLastName(String firstName, String lastName, String address, Date age, String email, List<String> medications, List<String> allergies) {
+    public PersonInfoLastName(String firstName, String lastName, String address, int age, String email, List<String> medications, List<String> allergies) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -50,11 +49,11 @@ public class PersonInfoLastName {
         this.address = address;
     }
 
-    public Date getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(Date age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
