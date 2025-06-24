@@ -1,24 +1,25 @@
 package com.openclassrooms.safetynet.service;
 
-import com.openclassrooms.safetynet.dto.ChildAlertDto;
-import com.openclassrooms.safetynet.dto.ChildDto;
-import com.openclassrooms.safetynet.dto.PersonInfoLastName;
+import com.openclassrooms.safetynet.dto.*;
+import com.openclassrooms.safetynet.model.FireStation;
 import com.openclassrooms.safetynet.model.MedicalRecord;
 import com.openclassrooms.safetynet.model.Person;
+import com.openclassrooms.safetynet.repository.FireStationRepository;
+import com.openclassrooms.safetynet.repository.MedicalRecordRepository;
 import com.openclassrooms.safetynet.repository.PersonRepository;
 import com.openclassrooms.safetynet.repository.SearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
 public class SearchService {
     private final SearchRepository searchRepository;
     private final PersonRepository personRepository;
+    private final FireStationRepository fireStationRepository;
+    private final MedicalRecordRepository medicalRecordRepository;
 
     public LinkedHashSet<String> getEmailsByCity(String city){
         return searchRepository.getEmailsByCity(city);
@@ -74,9 +75,44 @@ public class SearchService {
                 }
             }
         }
-
         return resultList.isEmpty() ? null : resultList;
     }
 
+    public List<FloodStations> getFloodDataByStations(List<Integer> stationNumbers) {
+        Set<String> addresses = new HashSet<>();
+        for (FireStation fs : fireStationRepository.getAllFireStation()) {
+            if (stationNumbers.contains(fs.getStation())) {
+                addresses.add(fs.getAddress());
+            }
+        }
 
+        List<FloodStations> result = new ArrayList<>();
+        for (String address : addresses) {
+            List<MedicalRecordDto> residents = new ArrayList<>();
+
+            for (Person p : personRepository.getAllPersons()) {
+                if (p.getAddress().equals(address)) {
+                    MedicalRecord m = searchRepository.findMedicalRecordByName(p.getFirstName(), p.getLastName());
+
+                    if (m != null) {
+                        residents.add(new MedicalRecordDto(
+                                p.getFirstName(),
+                                p.getLastName(),
+                                p.getPhone(),
+                                m.getBirthdate(),
+                                m.getMedications(),
+                                m.getAllergies()
+                        ));
+                    }
+                }
+            }
+            if (!residents.isEmpty()) {
+                FloodStations info = new FloodStations();
+                info.setAddress(address);
+                info.setMedicalRecordList(residents);
+                result.add(info);
+            }
+        }
+        return result;
+    }
 }

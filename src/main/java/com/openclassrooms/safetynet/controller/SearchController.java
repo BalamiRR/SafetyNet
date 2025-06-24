@@ -1,6 +1,7 @@
 package com.openclassrooms.safetynet.controller;
 
 import com.openclassrooms.safetynet.dto.ChildAlertDto;
+import com.openclassrooms.safetynet.dto.FloodStations;
 import com.openclassrooms.safetynet.dto.PersonInfoLastName;
 import com.openclassrooms.safetynet.service.SearchService;
 import lombok.RequiredArgsConstructor;
@@ -70,5 +71,16 @@ public class SearchController {
             log.error("No persons found with lastName: {}", lastName);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @RequestMapping(path="/flood/stations", method = RequestMethod.GET)
+    public ResponseEntity<List<FloodStations>> getFloodData(@RequestParam List<Integer> stations) {
+        List<FloodStations> result = searchService.getFloodDataByStations(stations);
+
+        if (result == null || result.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
