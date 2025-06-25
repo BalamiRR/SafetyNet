@@ -1,8 +1,6 @@
 package com.openclassrooms.safetynet.repository;
 
-import com.openclassrooms.safetynet.dto.PersonInfoLastName;
 import com.openclassrooms.safetynet.model.FireStation;
-import com.openclassrooms.safetynet.model.JsonDataConverter;
 import com.openclassrooms.safetynet.model.MedicalRecord;
 import com.openclassrooms.safetynet.model.Person;
 import lombok.RequiredArgsConstructor;
