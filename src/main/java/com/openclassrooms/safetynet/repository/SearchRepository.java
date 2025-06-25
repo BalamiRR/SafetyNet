@@ -18,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Repository
 public class SearchRepository {
-    private final JsonDataConverter data;
     private final FireStationRepository fireStationRepository;
     private final PersonRepository personRepository;
     private final MedicalRecordRepository medicalRecordRepository;
