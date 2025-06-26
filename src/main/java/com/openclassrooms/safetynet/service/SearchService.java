@@ -111,4 +111,30 @@ public class SearchService {
         }
         return result;
     }
+
+    public FireStationAddress fireAddress(String address){
+        FireStationAddress fireStationAddress = new FireStationAddress();
+        List<PersonRecord> personRecords = new ArrayList<>();
+        List<FireStation> fireStations = fireStationRepository.findStationByAddress(address);
+        List<Integer> numbers = new ArrayList<>();
+        for(FireStation fireStation : fireStations){
+            numbers.add(fireStation.getStation());
+        }
+
+        List<Person> persons = personRepository.findPersonByAddress(address);
+        for (Person person : persons){
+            String firstName = person.getFirstName();
+            String lastName = person.getLastName();
+            String phone = person.getPhone();
+            MedicalRecord medicalRecord = searchRepository.findMedicalRecordByName(firstName, lastName);
+            int age = searchRepository.getAge(medicalRecord.getBirthdate());
+            List<String> medications = medicalRecord.getMedications();
+            List<String> allergies = medicalRecord.getAllergies();
+            personRecords.add(new PersonRecord(firstName, lastName, phone, age, medications, allergies));
+        }
+        if(personRecords.isEmpty()) return null;
+        fireStationAddress.setStationNumber(numbers);
+        fireStationAddress.setMedicalRecordList(personRecords);
+        return fireStationAddress;
+    }
 }

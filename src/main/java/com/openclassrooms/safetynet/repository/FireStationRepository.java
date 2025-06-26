@@ -5,6 +5,7 @@ import com.openclassrooms.safetynet.model.JsonDataConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,7 +25,7 @@ public class FireStationRepository {
             return false;
         }
         for(FireStation fireStationA : this.getAllFireStation()){
-            if(fireStationA.getAddress().equals(fireStation.getAddress()) && fireStationA.getStation() == fireStationA.getStation()){
+            if(fireStationA.getAddress().equals(fireStation.getAddress()) && fireStationA.getStation() == fireStation.getStation()){
                 addressFound = true;
                 break;
             }
@@ -50,7 +51,6 @@ public class FireStationRepository {
     }
 
     //DELETE ADDRESS http://localhost:8080/fireStation?address=29 15th St
-    //DELETE ADDRESS http://localhost:8080/firestation?address=1509%20Culver%20St&station=3
     public Boolean deleteByAddress(String address) {
         return jsonDataConverter.getFireStations()
                 .removeIf(fs -> fs.getAddress().equalsIgnoreCase(address));
@@ -78,5 +78,15 @@ public class FireStationRepository {
             address.add(fireStationA.getAddress());
         }
         return address;
+    }
+
+    public List<FireStation> findStationByAddress(String address){
+        List<FireStation> list = new ArrayList<>();
+        for(FireStation fireStation : this.getAllFireStation()){
+            if(fireStation.getAddress().equals(address)){
+                list.add(fireStation);
+            }
+        }
+        return list;
     }
 }

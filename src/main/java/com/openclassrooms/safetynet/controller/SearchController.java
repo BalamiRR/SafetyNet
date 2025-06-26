@@ -1,8 +1,6 @@
 package com.openclassrooms.safetynet.controller;
 
-import com.openclassrooms.safetynet.dto.ChildAlertDto;
-import com.openclassrooms.safetynet.dto.FloodStations;
-import com.openclassrooms.safetynet.dto.PersonInfoLastName;
+import com.openclassrooms.safetynet.dto.*;
 import com.openclassrooms.safetynet.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,7 +61,6 @@ public class SearchController {
     @RequestMapping(path = "/personInfolastName", method = RequestMethod.GET)
     public ResponseEntity<List<PersonInfoLastName>> getPersonsByLastName(@RequestParam String lastName) {
         List<PersonInfoLastName> persons = searchService.getAllPersonsByLastName(lastName);
-
         if (persons != null) {
             log.info("Found {} person(s) with lastName: {}", persons.size(), lastName);
             return new ResponseEntity<>(persons, HttpStatus.OK);
@@ -76,11 +73,21 @@ public class SearchController {
     @RequestMapping(path="/flood/stations", method = RequestMethod.GET)
     public ResponseEntity<List<FloodStations>> getFloodData(@RequestParam List<Integer> stations) {
         List<FloodStations> result = searchService.getFloodDataByStations(stations);
-
         if (result == null || result.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @RequestMapping(path="/fire", method = RequestMethod.GET)
+    public ResponseEntity<FireStationAddress> fireAddress(@RequestParam String address){
+        FireStationAddress fireStationAddress = searchService.fireAddress(address);
+        if (searchService.fireAddress(address) != null) {
+            log.info("Station address {}", address);
+            return new ResponseEntity<>(fireStationAddress, HttpStatus.OK);
+        } else {
+            log.error("Failed to get stations by address: {}", address);
+            return new ResponseEntity<>(fireStationAddress, HttpStatus.NOT_FOUND);
+        }
     }
 }
