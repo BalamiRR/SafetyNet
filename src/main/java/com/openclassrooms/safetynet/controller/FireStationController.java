@@ -1,5 +1,7 @@
 package com.openclassrooms.safetynet.controller;
 
+import com.openclassrooms.safetynet.dto.ChildAlertDto;
+import com.openclassrooms.safetynet.dto.FireStationNumber;
 import com.openclassrooms.safetynet.model.FireStation;
 import com.openclassrooms.safetynet.service.FireStationService;
 import lombok.RequiredArgsConstructor;
@@ -62,6 +64,19 @@ public class FireStationController {
         }else {
             log.error("Delete failed for address: {} or station: {}", address, station);
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    @GetMapping("/station")
+    public ResponseEntity<FireStationNumber> getFireStationByStationNumber(@RequestParam int stationNumber){
+        FireStationNumber fireNumber = fireStationService.getFireStationByStationNumber(stationNumber);
+        if(fireNumber != null){
+            log.info("Station number: {}", stationNumber);
+            return new ResponseEntity<>(fireNumber, HttpStatus.OK);
+        }else {
+            log.error("Error getting Station number {} :", stationNumber);
+            return new ResponseEntity<>(fireNumber, HttpStatus.NOT_FOUND);
         }
     }
 
