@@ -28,7 +28,6 @@ public class SearchService {
     }
 
     public ChildAlertDto findChildByAddress(String address){
-        ChildAlertDto childAlert = new ChildAlertDto();
         List<ChildDto> childDtos = new ArrayList<>();
         List<Person> persons = personRepository.findPersonByAddress(address);
         List<Person> family = new ArrayList<>();
@@ -47,6 +46,7 @@ public class SearchService {
         }
         if(childDtos.isEmpty()) return null;
 
+        ChildAlertDto childAlert = new ChildAlertDto();
         childAlert.setChildren(childDtos);
         childAlert.setFamilyMembers(family);
         return childAlert;
