@@ -67,7 +67,6 @@ public class FireStationController {
         }
     }
 
-
     @GetMapping("/station")
     public ResponseEntity<FireStationNumber> getFireStationByStationNumber(@RequestParam int stationNumber){
         FireStationNumber fireNumber = fireStationService.getFireStationByStationNumber(stationNumber);
@@ -75,7 +74,7 @@ public class FireStationController {
             log.info("Station number: {}", stationNumber);
             return new ResponseEntity<>(fireNumber, HttpStatus.OK);
         }else {
-            log.error("Error getting Station number {} :", stationNumber);
+            log.error("Error getting Station Number : {} :", stationNumber);
             return new ResponseEntity<>(fireNumber, HttpStatus.NOT_FOUND);
         }
     }

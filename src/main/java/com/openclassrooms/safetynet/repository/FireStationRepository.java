@@ -74,7 +74,7 @@ public class FireStationRepository {
 
     public Set<String> findAllAddresses(Set<FireStation> stations){
         Set<String> address = new HashSet<>();
-        for(FireStation fireStationA : this.getAllFireStation()){
+        for(FireStation fireStationA :stations){
             address.add(fireStationA.getAddress());
         }
         return address;
