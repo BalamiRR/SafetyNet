@@ -1,19 +1,14 @@
 package com.openclassrooms.safetynet.service;
 
-import com.openclassrooms.safetynet.dto.ChildDto;
 import com.openclassrooms.safetynet.dto.FireStationNumber;
 import com.openclassrooms.safetynet.dto.PersonDto;
 import com.openclassrooms.safetynet.model.FireStation;
-import com.openclassrooms.safetynet.model.MedicalRecord;
 import com.openclassrooms.safetynet.model.Person;
 import com.openclassrooms.safetynet.repository.FireStationRepository;
-import com.openclassrooms.safetynet.repository.MedicalRecordRepository;
 import com.openclassrooms.safetynet.repository.PersonRepository;
-import com.openclassrooms.safetynet.repository.SearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

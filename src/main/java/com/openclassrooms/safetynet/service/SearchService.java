@@ -7,7 +7,6 @@ import com.openclassrooms.safetynet.model.Person;
 import com.openclassrooms.safetynet.repository.FireStationRepository;
 import com.openclassrooms.safetynet.repository.MedicalRecordRepository;
 import com.openclassrooms.safetynet.repository.PersonRepository;
-import com.openclassrooms.safetynet.repository.SearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,17 +15,40 @@ import java.util.*;
 @RequiredArgsConstructor
 @Service
 public class SearchService {
-    private final SearchRepository searchRepository;
     private final PersonRepository personRepository;
     private final FireStationRepository fireStationRepository;
     private final MedicalRecordService medicalRecordService;
+    private final MedicalRecordRepository medicalRecordRepository;
 
     public LinkedHashSet<String> getEmailsByCity(String city){
-        return searchRepository.getEmailsByCity(city);
+        LinkedHashSet<String> set = new LinkedHashSet<>();
+        for(Person personA : personRepository.getAllPersons()){
+            if(personA.getCity().equals(city)){
+                set.add(personA.getEmail());
+            }
+        }
+        if(set.isEmpty()) return null;
+        return set;
     }
 
     public LinkedHashSet<String> getAllPhoneNumbers(int fireStationNumber){
-        return searchRepository.getAllPhoneNumbers(fireStationNumber);
+        LinkedHashSet<String> phones = new LinkedHashSet<>();
+        List<String> addresses = new ArrayList<>();
+
+        for(FireStation fireStation : fireStationRepository.getAllFireStation()){
+            if(fireStation.getStation() == fireStationNumber){
+                addresses.add(fireStation.getAddress());
+            }
+        }
+        if(addresses.isEmpty()) return null;
+        for(String address : addresses){
+            for(Person personA : personRepository.getAllPersons()){
+                if(personA.getAddress().equals(address)){
+                    phones.add(personA.getPhone());
+                }
+            }
+        }
+        return phones;
     }
 
     public ChildAlertDto findChildByAddress(String address){
@@ -57,7 +79,7 @@ public class SearchService {
         List<Person> persons = personRepository.getAllPersons();
         for (Person person : persons) {
             if (person.getLastName().equalsIgnoreCase(lastName)) {
-                MedicalRecord record = searchRepository.findMedicalRecordByName(person.getFirstName(), person.getLastName());
+                MedicalRecord record = medicalRecordRepository.findMedicalRecordByName(person.getFirstName(), person.getLastName());
 
                 if (record != null) {
                     PersonInfoLastName info = new PersonInfoLastName();
@@ -76,8 +98,6 @@ public class SearchService {
         return resultList;
     }
 
-
-
     public List<FloodStations> getFloodDataByStations(List<Integer> stationNumbers) {
         Set<String> addresses = new HashSet<>();
         for (FireStation fs : fireStationRepository.getAllFireStation()) {
@@ -91,7 +111,7 @@ public class SearchService {
             List<MedicalRecordDto> residents = new ArrayList<>();
             for (Person p : personRepository.getAllPersons()) {
                 if (p.getAddress().equals(address)) {
-                    MedicalRecord m = searchRepository.findMedicalRecordByName(p.getFirstName(), p.getLastName());
+                    MedicalRecord m = medicalRecordRepository.findMedicalRecordByName(p.getFirstName(), p.getLastName());
                     if (m != null) {
                         residents.add(new MedicalRecordDto(
                                 p.getFirstName(),
@@ -128,7 +148,7 @@ public class SearchService {
             String firstName = person.getFirstName();
             String lastName = person.getLastName();
             String phone = person.getPhone();
-            MedicalRecord medicalRecord = searchRepository.findMedicalRecordByName(firstName, lastName);
+            MedicalRecord medicalRecord = medicalRecordRepository.findMedicalRecordByName(firstName, lastName);
             int age = medicalRecord.getAge();
             List<String> medications = medicalRecord.getMedications();
             List<String> allergies = medicalRecord.getAllergies();

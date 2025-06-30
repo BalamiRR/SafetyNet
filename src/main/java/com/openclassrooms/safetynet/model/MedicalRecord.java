@@ -85,4 +85,5 @@ public class MedicalRecord {
         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         return Period.between(birthday, localDate).getYears();
     }
+
 }

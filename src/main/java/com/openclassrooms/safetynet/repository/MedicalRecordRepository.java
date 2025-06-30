@@ -56,4 +56,14 @@ public class MedicalRecordRepository {
         }
         return false;
     }
+
+
+    public MedicalRecord findMedicalRecordByName(String name, String lastName){
+        for(MedicalRecord medicalRecord : this.getAllMedicalRecord()){
+            if(medicalRecord.getFirstName().equals(name) && medicalRecord.getLastName().equals(lastName)){
+                return medicalRecord;
+            }
+        }
+        return null;
+    }
 }
