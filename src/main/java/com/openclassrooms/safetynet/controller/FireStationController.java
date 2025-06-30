@@ -1,6 +1,5 @@
 package com.openclassrooms.safetynet.controller;
 
-import com.openclassrooms.safetynet.dto.ChildAlertDto;
 import com.openclassrooms.safetynet.dto.FireStationNumber;
 import com.openclassrooms.safetynet.model.FireStation;
 import com.openclassrooms.safetynet.service.FireStationService;
@@ -75,7 +74,7 @@ public class FireStationController {
             return new ResponseEntity<>(fireNumber, HttpStatus.OK);
         }else {
             log.error("Error getting Station Number : {} :", stationNumber);
-            return new ResponseEntity<>(fireNumber, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 

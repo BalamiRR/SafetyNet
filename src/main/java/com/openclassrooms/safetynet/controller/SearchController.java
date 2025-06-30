@@ -27,7 +27,7 @@ public class SearchController {
         LinkedHashSet<String> emails = searchService.getEmailsByCity(city);
         if(emails != null){
             log.info(" {} is showed! : ",city);
-            return new ResponseEntity<>(emails, HttpStatus.ACCEPTED);
+            return ResponseEntity.ok(emails);
         }else {
             log.error("Failed to show the city: {} ", city);
             return new ResponseEntity<>(emails, HttpStatus.NOT_FOUND);
