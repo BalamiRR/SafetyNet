@@ -2,6 +2,9 @@ package com.openclassrooms.safetynet.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -74,5 +77,12 @@ public class MedicalRecord {
                 ", medications=" + medications +
                 ", allergies=" + allergies +
                 '}';
+    }
+
+    public int getAge(){
+        LocalDate birthday = this.birthdate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        Date date = new Date();
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return Period.between(birthday, localDate).getYears();
     }
 }

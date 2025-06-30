@@ -23,7 +23,7 @@ import java.util.Set;
 public class FireStationService {
     private final FireStationRepository fireStationRepository;
     private final PersonRepository personRepository;
-    private  final SearchRepository searchRepository;
+    private final MedicalRecordService medicalRecordService;
 
     public List<FireStation> getAllFireStations(){
         return fireStationRepository.getAllFireStation();
@@ -58,7 +58,7 @@ public class FireStationService {
             for(Person personA : persons){
                 String firstName = personA.getFirstName();
                 String lastName = personA.getLastName();
-                int age = searchRepository.getAgeByName(firstName, lastName);
+                int age = medicalRecordService.getAgeByFirstNameAndLastName(firstName, lastName);
                 if(age <= 18){
                     child += 1;
                 } else {

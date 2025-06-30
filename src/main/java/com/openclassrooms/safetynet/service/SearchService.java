@@ -5,6 +5,7 @@ import com.openclassrooms.safetynet.model.FireStation;
 import com.openclassrooms.safetynet.model.MedicalRecord;
 import com.openclassrooms.safetynet.model.Person;
 import com.openclassrooms.safetynet.repository.FireStationRepository;
+import com.openclassrooms.safetynet.repository.MedicalRecordRepository;
 import com.openclassrooms.safetynet.repository.PersonRepository;
 import com.openclassrooms.safetynet.repository.SearchRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ public class SearchService {
     private final SearchRepository searchRepository;
     private final PersonRepository personRepository;
     private final FireStationRepository fireStationRepository;
+    private final MedicalRecordService medicalRecordService;
 
     public LinkedHashSet<String> getEmailsByCity(String city){
         return searchRepository.getEmailsByCity(city);
@@ -35,7 +37,7 @@ public class SearchService {
         for(Person person : persons){
             String firstName = person.getFirstName();
             String lastName = person.getLastName();
-            int age = searchRepository.getAgeByName(firstName, lastName);
+            int age = medicalRecordService.getAgeByFirstNameAndLastName(firstName, lastName);
 
             if(age <= 18){
                 childDtos.add(new ChildDto(firstName, lastName, age));
@@ -44,8 +46,6 @@ public class SearchService {
                 family.add(person);
             }
         }
-        if(childDtos.isEmpty()) return null;
-
         ChildAlertDto childAlert = new ChildAlertDto();
         childAlert.setChildren(childDtos);
         childAlert.setFamilyMembers(family);
@@ -65,7 +65,7 @@ public class SearchService {
                     info.setLastName(person.getLastName());
                     info.setAddress(person.getAddress());
                     info.setEmail(person.getEmail());
-                    info.setAge(searchRepository.getAge(record.getBirthdate()));
+                    info.setAge(record.getAge());
                     info.setMedications(record.getMedications());
                     info.setAllergies(record.getAllergies());
 
@@ -73,8 +73,10 @@ public class SearchService {
                 }
             }
         }
-        return resultList.isEmpty() ? null : resultList;
+        return resultList;
     }
+
+
 
     public List<FloodStations> getFloodDataByStations(List<Integer> stationNumbers) {
         Set<String> addresses = new HashSet<>();
@@ -127,7 +129,7 @@ public class SearchService {
             String lastName = person.getLastName();
             String phone = person.getPhone();
             MedicalRecord medicalRecord = searchRepository.findMedicalRecordByName(firstName, lastName);
-            int age = searchRepository.getAge(medicalRecord.getBirthdate());
+            int age = medicalRecord.getAge();
             List<String> medications = medicalRecord.getMedications();
             List<String> allergies = medicalRecord.getAllergies();
             personRecords.add(new PersonRecord(firstName, lastName, phone, age, medications, allergies));

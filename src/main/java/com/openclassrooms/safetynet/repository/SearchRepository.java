@@ -60,17 +60,5 @@ public class SearchRepository {
         return null;
     }
 
-    public int getAge(Date birthDate){
-        LocalDate birthday = birthDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        Date date = new Date();
-        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        return Period.between(birthday, localDate).getYears();
-    }
-
-    public int getAgeByName(String name, String lastName){
-        MedicalRecord medicalRecordByName = this.findMedicalRecordByName(name, lastName);
-        Date birthDate = medicalRecordByName.getBirthdate();
-        return this.getAge(birthDate);
-    }
 
 }
