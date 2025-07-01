@@ -27,7 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-
 @RequiredArgsConstructor
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -238,8 +237,7 @@ class SafetynetApplicationTests {
 		medications.add("selenium:100mg");
 		List<String> allergies = new ArrayList<>();
 		allergies.add("apple");
-		MedicalRecord record = new MedicalRecord( "Cristiano", "Ronaldo", new SimpleDateFormat( "yyyyMMdd" )
-				.parse( "123456789" ), medications, allergies);
+		MedicalRecord record = new MedicalRecord( "Cristiano", "Ronaldo", new SimpleDateFormat("yyyyMMdd").parse("19840306"), medications, allergies);
 		MockHttpServletResponse response = mockMvc.perform( MockMvcRequestBuilders
 						.post("/medicalRecord")
 						.content(objectMapper.writeValueAsString(record))
@@ -251,6 +249,75 @@ class SafetynetApplicationTests {
 		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
 	}
 
+	@Test
+	public void updateMedicalRecordShouldReturnTrue() throws Exception {
+		List<String> medications = new ArrayList<>();
+		medications.add("\"aznol:350mg\"");
+		medications.add("hydrapermazol:100mg");
+		List<String> allergies = new ArrayList<>();
+		allergies.add("");
+		MedicalRecord record = new MedicalRecord( "John", "Boyd", new SimpleDateFormat("yyyyMMdd").parse("19870707"), medications, allergies);
+		MockHttpServletResponse response = mockMvc.perform( MockMvcRequestBuilders
+						.put("/medicalRecord/John/Boyd")
+						.content(objectMapper.writeValueAsString(record))
+						.contentType(MediaType.APPLICATION_JSON)
+						.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isAccepted())
+				.andReturn()
+				.getResponse();
+		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
+	}
 
+	@Test
+	public void deleteMedicalRecordShouldReturnTrue() throws Exception {
+		List<String> medications = new ArrayList<>();
+		medications.add("\"aznol:350mg\"");
+		medications.add("hydrapermazol:100mg");
+		List<String> allergies = new ArrayList<>();
+		allergies.add("");
+		MedicalRecord record = new MedicalRecord( "John", "Boyd", new SimpleDateFormat("yyyyMMdd").parse("19870707"), medications, allergies);
+		MockHttpServletResponse response = mockMvc.perform( MockMvcRequestBuilders
+						.delete("/medicalRecord/John/Boyd")
+						.content(objectMapper.writeValueAsString(record))
+						.contentType(MediaType.APPLICATION_JSON)
+						.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isAccepted())
+				.andReturn()
+				.getResponse();
+		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
+	}
+
+	// Log error
+	@Test
+	public void createPersonExistPersonShouldReturnFalse() throws Exception {
+		Person person = new Person("Jacob", "Boyd", "1509 Culver St", "Culver", "97451", "841-874-651", "drk@email.com");
+		MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
+						.post("/person")
+						.content(objectMapper.writeValueAsString(person))
+						.contentType(MediaType.APPLICATION_JSON)
+						.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isBadRequest())
+				.andReturn()
+				.getResponse();
+		assertEquals("false", response.getContentAsString(StandardCharsets.UTF_8));
+	}
+
+	@Test
+	public void deleteNotExistMedicalRecordShouldReturnFalse() throws Exception {
+		List<String> medications = new ArrayList<>();
+		medications.add("\"aznol:350mg\"");
+		medications.add("hydrapermazol:100mg");
+		List<String> allergies = new ArrayList<>();
+		allergies.add("");
+		MedicalRecord record = new MedicalRecord( "FFF", "LLL", new SimpleDateFormat("yyyyMMdd").parse("19870707"), medications, allergies);
+		MockHttpServletResponse response = mockMvc.perform( MockMvcRequestBuilders
+						.delete("/medicalRecord/FFF/LLL")
+						.content(objectMapper.writeValueAsString(record))
+						.contentType(MediaType.APPLICATION_JSON)
+						.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isBadGateway())
+				.andReturn()
+				.getResponse();
+		assertEquals("false", response.getContentAsString(StandardCharsets.UTF_8));
+	}
 }
-
