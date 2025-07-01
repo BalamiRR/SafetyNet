@@ -17,6 +17,11 @@ public class PersonRepository {
         return data.getPersons();
     }
 
+    /**
+     * If a person does not exist yet, by checking the unique firstName and lastName, then add it.
+     * @param person A Person Object.
+     * @return true if success, or false if failed.
+     */
     public Boolean savingPerson(Person person){
         boolean personFound = false;
         if(person.getFirstName() == null || person.getLastName() == null){
@@ -34,6 +39,13 @@ public class PersonRepository {
         return !personFound;
     }
 
+    /**
+     * Deletes a person from the list by matching firstName and lastName.
+     *
+     * @param firstName The first name of the person to delete.
+     * @param lastName The last name of the person to delete.
+     * @return true if the person was found and removed; false otherwise.
+     */
     public Boolean deletePerson(String firstName, String lastName){
         for( Person personA : this.getAllPersons()){
             if(personA.getFirstName().equals(firstName) && personA.getLastName().equals(lastName)){
@@ -43,6 +55,15 @@ public class PersonRepository {
     return false;
     }
 
+    /**
+     * Updates the details of an existing person identified by firstName and lastName.
+     * If a matching person is found in the list, their address, city, zip, phone, and email will be updated.
+     *
+     * @param firstName The first name of the person to update.
+     * @param lastName The last name of the person to update.
+     * @param person A Person object containing the updated details.
+     * @return true if the person was found and updated; false otherwise.
+     */
     public Boolean updatePerson(String firstName, String lastName, Person person){
         for( Person personA : this.getAllPersons()){
             if(personA.getFirstName().equalsIgnoreCase(firstName) && personA.getLastName().equalsIgnoreCase(lastName)){
