@@ -19,6 +19,13 @@ public class FireStationRepository {
         return jsonDataConverter.getFireStations();
     }
 
+    /**
+     * Adds a new fire station entry if it does not already exist.
+     *
+     * @param fireStation The FireStation object containing address and station number.
+     * @return {@code true} if the fire station was successfully added;
+     *         {@code false} if the station already exists or input is invalid.
+     */
     public Boolean savingStation(FireStation fireStation){
         boolean addressFound = false;
         if(fireStation.getAddress() == null || fireStation.getStation() == 0){
@@ -36,7 +43,13 @@ public class FireStationRepository {
         return !addressFound;
     }
 
-    //http://localhost:8080/fireStation?address=1509 Culver St
+    /**
+     * Updates station number by address.
+     *
+     * @param address Fire station address.
+     * @param fireStation New station info.
+     * @return true if updated, false if not found or invalid input.
+     */
     public Boolean updateFireStation(String address, FireStation fireStation){
         if(address == null || fireStation.getStation() == 0){
             return false;
@@ -50,14 +63,21 @@ public class FireStationRepository {
         return false;
     }
 
-    //DELETE ADDRESS http://localhost:8080/fireStation?address=29 15th St
+    /**
+     * Deletes all fire stations with the given address.
+     * @param address Address to match for deletion.
+     * @return true if any fire station was removed; false otherwise.
+     */
     public Boolean deleteByAddress(String address) {
         return jsonDataConverter.getFireStations()
                 .removeIf(fs -> fs.getAddress().equalsIgnoreCase(address));
     }
 
-    //DELETE STATION http://localhost:8080/fireStation?station=5
-    public Boolean deleteByStation(String station) {
+    /**
+     * Deletes all fire stations matching the given station number.
+     * @param station Station number to match for deletion (as String).
+     * @return true if any fire station was removed; false otherwise.
+     */    public Boolean deleteByStation(String station) {
         return jsonDataConverter.getFireStations()
                 .removeIf(fs -> String.valueOf(fs.getStation()).equalsIgnoreCase(station));
     }
