@@ -2,6 +2,7 @@ package com.openclassrooms.safetynet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.safetynet.model.FireStation;
+import com.openclassrooms.safetynet.model.MedicalRecord;
 import com.openclassrooms.safetynet.model.Person;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
@@ -197,8 +200,57 @@ class SafetynetApplicationTests {
 				.andReturn()
 				.getResponse();
 		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
-
-
 	}
+
+	@Test
+	public void deleteFireStationByAddressShouldReturnTrue() throws Exception {
+		FireStation fireStation = new FireStation("951 LoneTree Rd", 2);
+		MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
+				.delete("/fireStation?address=951 LoneTree Rd")
+				.content(objectMapper.writeValueAsString(fireStation))
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isAccepted())
+				.andReturn()
+				.getResponse();
+		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
+	}
+
+	@Test
+	public void deleteFireStationByStationNumberShouldReturnTrue() throws Exception {
+		FireStation fireStation = new FireStation("951 LoneTree Rd", 2);
+		MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
+						.delete("/fireStation?station=2")
+						.content(objectMapper.writeValueAsString(fireStation))
+						.contentType(MediaType.APPLICATION_JSON)
+						.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isAccepted())
+				.andReturn()
+				.getResponse();
+		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
+	}
+
+	//MedicalRecord
+	@Test
+	public void createMedicalRecordShouldReturnTrue() throws Exception {
+		List<String> medications = new ArrayList<>();
+		medications.add("\"parazol:350mg\"");
+		medications.add("selenium:100mg");
+		List<String> allergies = new ArrayList<>();
+		allergies.add("apple");
+		MedicalRecord record = new MedicalRecord( "Cristiano", "Ronaldo", new SimpleDateFormat( "yyyyMMdd" )
+				.parse( "123456789" ), medications, allergies);
+		MockHttpServletResponse response = mockMvc.perform( MockMvcRequestBuilders
+						.post("/medicalRecord")
+						.content(objectMapper.writeValueAsString(record))
+						.contentType(MediaType.APPLICATION_JSON)
+						.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isCreated())
+				.andReturn()
+				.getResponse();
+		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
+	}
+
+
 }
 
