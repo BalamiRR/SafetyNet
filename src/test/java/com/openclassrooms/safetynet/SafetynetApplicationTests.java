@@ -1,20 +1,17 @@
 package com.openclassrooms.safetynet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.openclassrooms.safetynet.model.MedicalRecord;
+import com.openclassrooms.safetynet.model.FireStation;
 import com.openclassrooms.safetynet.model.Person;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.nio.charset.StandardCharsets;
 
@@ -159,5 +156,49 @@ class SafetynetApplicationTests {
 		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
 	}
 
+	@Test
+	public void updatePersonWithPersonShouldReturnTrue() throws Exception {
+		Person person = new Person("John", "Boyd", "Gedikkaya Caddesi. Beyzanur", "Giresun", "28000", "0454-27-00-31-", "f.k@gmail.com");
+		MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
+				.put("/person/John/Boyd")
+						.content(objectMapper.writeValueAsString(person))
+						.contentType(MediaType.APPLICATION_JSON)
+						.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isAccepted())
+				.andReturn()
+				.getResponse();
+		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
+	}
+
+	// FireStation
+	@Test
+	public void addNewFireStationInfoShouldReturnTrue() throws Exception {
+		FireStation fireStation = new FireStation("16 Wall Street. Las Vegas", 3);
+		MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
+					.post("/fireStation")
+					.content(objectMapper.writeValueAsString(fireStation))
+					.contentType(MediaType.APPLICATION_JSON)
+					.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isCreated())
+				.andReturn()
+				.getResponse();
+		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
+	}
+
+	@Test
+	public void updateFireStationInfoShouldReturnTrue() throws Exception {
+		FireStation fireStation = new FireStation("1509 Culver St", 88);
+		MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
+				.put("/fireStation")
+				.content(objectMapper.writeValueAsString(fireStation))
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isAccepted())
+				.andReturn()
+				.getResponse();
+		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
+
+
+	}
 }
 
