@@ -52,11 +52,11 @@ class SafetynetApplicationTests {
 
 	@Test
 	public void getAllPhonesGivenFireStationNumberShouldReturnAList() throws Exception {
-		mockMvc.perform(get("/phoneAlert?fireStationNumber=3"))
+		mockMvc.perform(get("/phoneAlert?fireStationNumber=1"))
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(content().string(containsString("841-874-6512")))
-				.andExpect(jsonPath("$.length()", is(7)));
+				.andExpect(jsonPath("$.length()", is(4)));
 	}
 
 	@Test
@@ -112,11 +112,12 @@ class SafetynetApplicationTests {
 
 	@Test
 	public void getChildrenAndFamilyInfoByGivenAddressShouldReturnChildrenParents() throws Exception {
-		mockMvc.perform(get("/childAlert?address=1509 Culver St"))
+		mockMvc.perform(get("/childAlert?address=892 Downing Ct"))
 				.andDo(print())
-				.andExpect(jsonPath("$.children.length()", is(2)))
-				.andExpect(jsonPath("$.children[0].age").value(12))
-				.andExpect(jsonPath("$.familyMembers.length()").value(3));
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.children[0].age").value(8))
+				.andExpect(jsonPath("$.children.length()", is(1)))
+				.andExpect(jsonPath("$.familyMembers.length()").value(2));
 	}
 
 	@Test
@@ -256,16 +257,16 @@ class SafetynetApplicationTests {
 		medications.add("hydrapermazol:100mg");
 		List<String> allergies = new ArrayList<>();
 		allergies.add("");
-		MedicalRecord record = new MedicalRecord( "John", "Boyd", new SimpleDateFormat("yyyyMMdd").parse("19870707"), medications, allergies);
+		MedicalRecord record = new MedicalRecord( "John", "Boyd", new SimpleDateFormat( "yyyyMMdd" ).parse( "19840306" ), medications, allergies);
 		MockHttpServletResponse response = mockMvc.perform( MockMvcRequestBuilders
 						.put("/medicalRecord/John/Boyd")
 						.content(objectMapper.writeValueAsString(record))
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isAccepted())
+				.andExpect(status().isBadRequest())
 				.andReturn()
 				.getResponse();
-		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
+		assertEquals("false", response.getContentAsString(StandardCharsets.UTF_8));
 	}
 
 	@Test
@@ -288,6 +289,33 @@ class SafetynetApplicationTests {
 	}
 
 	// Log error
+	@Test
+	public void getAllEmailsGivenCityReturnAListFalse() throws Exception{
+		mockMvc.perform(get("/communityEmail?city=Paris"))
+				.andDo(print())
+				.andExpect(status().isNotFound())
+				.andExpect(content().string(containsString("")));
+	}
+
+	@Test
+	public void updateRecord_withARecord_shouldReturnTrue() throws Exception {
+		List<String> medications = new ArrayList<>();
+		medications.add("\"abcd:350mg\"");
+		medications.add("selenium:100mg");
+		List<String> allergies = new ArrayList<>();
+		allergies.add("");
+		MedicalRecord record = new MedicalRecord( "John", "Boyd", new SimpleDateFormat( "yyyyMMdd" ).parse( "19840306" ), medications, allergies);
+		MockHttpServletResponse response = mockMvc.perform( MockMvcRequestBuilders
+						.put("/medicalRecord/John/Boyd")
+						.content(objectMapper.writeValueAsString(record))
+						.contentType(MediaType.APPLICATION_JSON)
+						.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isAccepted())
+				.andReturn()
+				.getResponse();
+		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
+	}
+
 	@Test
 	public void createPersonExistPersonShouldReturnFalse() throws Exception {
 		Person person = new Person("Jacob", "Boyd", "1509 Culver St", "Culver", "97451", "841-874-651", "drk@email.com");
@@ -320,4 +348,5 @@ class SafetynetApplicationTests {
 				.getResponse();
 		assertEquals("false", response.getContentAsString(StandardCharsets.UTF_8));
 	}
+
 }
