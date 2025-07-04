@@ -33,7 +33,6 @@
 		<junit.jupiter.version>5.12.2</junit.jupiter.version>
 		<junit.platform.version>1.12.2</junit.platform.version>
 		<jacoco.maven.version>0.8.12</jacoco.maven.version>
-		<maven.assembly.version>3.7.1</maven.assembly.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -91,11 +90,6 @@
 			<type>maven-plugin</type>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-assembly-plugin</artifactId>
-			<version>${maven.assembly.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-junit-jupiter</artifactId>
 			<version>2.23.4</version>
@@ -151,30 +145,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<archive>
-								<manifest>
-									<mainClass>
-										com.openclassrooms.safetynet.SafetynetApplication
-									</mainClass>
-								</manifest>
-							</archive>
-							<descriptorRefs>
-								<descriptorRef>executable-jar-with-dependencies</descriptorRef>
-							</descriptorRefs>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
