@@ -22,7 +22,7 @@ public class PersonRepository {
      * @param person A Person Object.
      * @return true if success, or false if failed.
      */
-    public Boolean savingPerson(Person person){
+    public Boolean savePerson(Person person){
         boolean personFound = false;
         if(person.getFirstName() == null || person.getLastName() == null){
             return false;

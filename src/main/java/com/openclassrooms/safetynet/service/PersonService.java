@@ -17,7 +17,7 @@ public class PersonService {
     }
 
     public Boolean savePerson(Person person){
-        return personRepository.savingPerson(person);
+        return personRepository.savePerson(person);
     }
 
     public Boolean deletePerson(String firstName, String lastName){
