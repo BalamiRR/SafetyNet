@@ -37,10 +37,6 @@ class SafetynetApplicationTests {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-    @Test
-	void contextLoads() {
-	}
-
 	@Test
 	public void getAllEmailsGivenCityReturnAList() throws Exception{
 		mockMvc.perform(get("/communityEmail?city=Culver"))
@@ -81,7 +77,7 @@ class SafetynetApplicationTests {
 		mockMvc.perform(get("/fire?address=50 Rue anne-sophie Sarcelles"))
 				.andDo(print())
 				.andExpect(status().isNotFound())
-				.andExpect(jsonPath("$.stationNumber").doesNotExist());
+				.andExpect(jsonPath("$.stationNumber").isEmpty());
 	}
 
 	@Test
