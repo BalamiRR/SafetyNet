@@ -80,14 +80,14 @@ public class SearchController {
     }
 
     @RequestMapping(path="/fire", method = RequestMethod.GET)
-    public ResponseEntity<FireStationAddress> fireAddress(@RequestParam String address){
-        FireStationAddress fireStationAddress = searchService.fireAddress(address);
-        if (searchService.fireAddress(address) != null) {
-            log.info("Station address {}", address);
-            return new ResponseEntity<>(fireStationAddress, HttpStatus.OK);
-        } else {
+    public ResponseEntity<FireStationAddress> getResidenceOfAddress(@RequestParam String address){
+        FireStationAddress fireStationAddress = searchService.getResidenceOfAddress(address);
+        if(fireStationAddress.getStationNumber().isEmpty()){
             log.error("Failed to get stations by address: {}", address);
             return new ResponseEntity<>(fireStationAddress, HttpStatus.NOT_FOUND);
         }
+        log.info("Station address {}", address);
+        return new ResponseEntity<>(fireStationAddress, HttpStatus.OK);
+
     }
 }

@@ -134,31 +134,39 @@ public class SearchService {
         return result;
     }
 
-    public FireStationAddress fireAddress(String address){
+    public FireStationAddress getResidenceOfAddress(String address){
         FireStationAddress fireStationAddress = new FireStationAddress();
-        List<PersonRecord> personRecords = new ArrayList<>();
         List<FireStation> fireStations = fireStationRepository.findStationByAddress(address);
         List<Integer> numbers = new ArrayList<>();
         for(FireStation fireStation : fireStations){
             numbers.add(fireStation.getStation());
         }
 
+        List<PersonRecord> personRecords = getPersonRecord(address);
+        fireStationAddress.setStationNumber(numbers);
+        fireStationAddress.setMedicalRecordList(personRecords);
+        return fireStationAddress;
+
+    }
+
+    private List<PersonRecord> getPersonRecord(String address){
+        List<PersonRecord> personRecords = new ArrayList<>();
         List<Person> persons = personRepository.findPersonByAddress(address);
         for (Person person : persons){
             String firstName = person.getFirstName();
             String lastName = person.getLastName();
             String phone = person.getPhone();
-            MedicalRecord medicalRecord = medicalRecordRepository.findMedicalRecordByName(firstName, lastName);
-            int age = medicalRecord.getAge();
-            List<String> medications = medicalRecord.getMedications();
-            List<String> allergies = medicalRecord.getAllergies();
-            personRecords.add(new PersonRecord(firstName, lastName, phone, age, medications, allergies));
+            MedicalRecord medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(firstName, lastName);
+            if(medicalRecord != null){
+                int age = medicalRecord.getAge();
+                List<String> medications = medicalRecord.getMedications();
+                List<String> allergies = medicalRecord.getAllergies();
+                personRecords.add(new PersonRecord(firstName, lastName, phone, age, medications, allergies));
+            }else{
+                personRecords.add(new PersonRecord(firstName, lastName, phone));
+            }
         }
-        if(personRecords.isEmpty()) return null;
-        fireStationAddress.setStationNumber(numbers);
-        fireStationAddress.setMedicalRecordList(personRecords);
-        return fireStationAddress;
+        return personRecords;
     }
-
 
 }

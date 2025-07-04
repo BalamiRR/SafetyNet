@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Service
@@ -35,6 +36,10 @@ public class MedicalRecordService {
                 .findFirst()
                 .map(MedicalRecord::getAge)
                 .orElse(0);
+    }
+
+    public MedicalRecord getMedicalRecordByFirstNameAndLastName(String firstName, String lastName){
+        return medicalRecordRepository.findMedicalRecordByName(firstName, lastName);
     }
 
 

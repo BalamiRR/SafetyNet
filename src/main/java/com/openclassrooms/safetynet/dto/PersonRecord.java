@@ -1,5 +1,6 @@
 package com.openclassrooms.safetynet.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PersonRecord {
@@ -7,8 +8,8 @@ public class PersonRecord {
     private String lastName;
     private String phone;
     private int age;
-    private List<String> medications;
-    private List<String> allergies;
+    private List<String> medications = new ArrayList<>();
+    private List<String> allergies = new ArrayList<>();
 
     public PersonRecord(){
 
@@ -21,6 +22,12 @@ public class PersonRecord {
         this.age = age;
         this.medications = medications;
         this.allergies = allergies;
+    }
+
+    public PersonRecord(String firstName, String lastName, String phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
     }
 
     public String getFirstName() {
