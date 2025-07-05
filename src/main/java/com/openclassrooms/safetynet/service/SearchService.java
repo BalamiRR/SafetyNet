@@ -108,22 +108,7 @@ public class SearchService {
 
         List<FloodStations> result = new ArrayList<>();
         for (String address : addresses) {
-            List<MedicalRecordDto> residents = new ArrayList<>();
-            for (Person p : personRepository.getAllPersons()) {
-                if (p.getAddress().equals(address)) {
-                    MedicalRecord m = medicalRecordRepository.findMedicalRecordByName(p.getFirstName(), p.getLastName());
-                    if (m != null) {
-                        residents.add(new MedicalRecordDto(
-                                p.getFirstName(),
-                                p.getLastName(),
-                                p.getPhone(),
-                                m.getBirthdate(),
-                                m.getMedications(),
-                                m.getAllergies()
-                        ));
-                    }
-                }
-            }
+            List<MedicalRecordDto> residents = buildResidentsForAddress(address);
             if (!residents.isEmpty()) {
                 FloodStations info = new FloodStations();
                 info.setAddress(address);
@@ -133,6 +118,63 @@ public class SearchService {
         }
         return result;
     }
+
+    private List<MedicalRecordDto> buildResidentsForAddress(String address) {
+        List<MedicalRecordDto> residents = new ArrayList<>();
+
+        for (Person p : personRepository.getAllPersons()) {
+            if (address.equals(p.getAddress())) {
+                MedicalRecord m = medicalRecordRepository
+                        .findMedicalRecordByName(p.getFirstName(), p.getLastName());
+                if (m != null) {
+                    residents.add(new MedicalRecordDto(
+                            p.getFirstName(),
+                            p.getLastName(),
+                            p.getPhone(),
+                            m.getBirthdate(),
+                            m.getMedications(),
+                            m.getAllergies()
+                    ));
+                }
+            }
+        }
+        return residents;
+    }
+//    public List<FloodStations> getFloodDataByStations(List<Integer> stationNumbers) {
+//        Set<String> addresses = new HashSet<>();
+//        for (FireStation fs : fireStationRepository.getAllFireStation()) {
+//            if (stationNumbers.contains(fs.getStation())) {
+//                addresses.add(fs.getAddress());
+//            }
+//        }
+//
+//        List<FloodStations> result = new ArrayList<>();
+//        for (String address : addresses) {
+//            List<MedicalRecordDto> residents = new ArrayList<>();
+//            for (Person p : personRepository.getAllPersons()) {
+//                if (p.getAddress().equals(address)) {
+//                    MedicalRecord m = medicalRecordRepository.findMedicalRecordByName(p.getFirstName(), p.getLastName());
+//                    if (m != null) {
+//                        residents.add(new MedicalRecordDto(
+//                                p.getFirstName(),
+//                                p.getLastName(),
+//                                p.getPhone(),
+//                                m.getBirthdate(),
+//                                m.getMedications(),
+//                                m.getAllergies()
+//                        ));
+//                    }
+//                }
+//            }
+//            if (!residents.isEmpty()) {
+//                FloodStations info = new FloodStations();
+//                info.setAddress(address);
+//                info.setMedicalRecordList(residents);
+//                result.add(info);
+//            }
+//        }
+//        return result;
+//    }
 
     public FireStationAddress getResidenceOfAddress(String address){
         FireStationAddress fireStationAddress = new FireStationAddress();
