@@ -77,7 +77,8 @@ public class FireStationRepository {
      * Deletes all fire stations matching the given station number.
      * @param station Station number to match for deletion (as String).
      * @return true if any fire station was removed; false otherwise.
-     */    public Boolean deleteByStation(String station) {
+     */
+    public Boolean deleteByStation(String station) {
         return jsonDataConverter.getFireStations()
                 .removeIf(fs -> String.valueOf(fs.getStation()).equalsIgnoreCase(station));
     }
