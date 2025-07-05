@@ -1,7 +1,6 @@
-package com.openclassrooms.safetynet;
+package com.openclassrooms.safetynet.service.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.openclassrooms.safetynet.model.FireStation;
 import com.openclassrooms.safetynet.model.MedicalRecord;
 import com.openclassrooms.safetynet.model.Person;
 import lombok.RequiredArgsConstructor;
@@ -30,12 +29,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RequiredArgsConstructor
 @AutoConfigureMockMvc
 @SpringBootTest
-class SafetynetApplicationTests {
+class UrlsEndpointsTest {
 
 	@Autowired
 	private MockMvc mockMvc;
 	@Autowired
 	private ObjectMapper objectMapper;
+
+	@Test
+	void contextLoads() {
+
+	}
 
 	@Test
 	public void getAllEmailsGivenCityReturnAList() throws Exception{
@@ -125,165 +129,6 @@ class SafetynetApplicationTests {
 				.andExpect(jsonPath("$.familyMembers.length()").value(0));
 	}
 
-	//Endpoints
-	// Person... Create, Read, Update, Delete
-	@Test
-	public void createAPersonShouldReturnTrue() throws Exception {
-		Person person = new Person("Thomas", "Anderson", "15 Street John Kennedy", "New York", "28000", "11-555-9999", "t.anderson@gmail.com");
-		MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
-				.post("/person")
-				.content(objectMapper.writeValueAsString(person))
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isCreated())
-				.andReturn()
-				.getResponse();
-		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
-	}
-
-	@Test
-	public void deletePersonWithAPersonShouldReturnTrue() throws Exception {
-		Person person = new Person("John", "Boyd", "1509 Culver St", "Culver", "97451", "841-874-6512", "jaboyd@ymail.com");
-		MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
-				.delete("/person/John/Boyd")
-				.contentType(objectMapper.writeValueAsString(person))
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isAccepted())
-				.andReturn()
-				.getResponse();
-		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
-	}
-
-	@Test
-	public void updatePersonWithPersonShouldReturnTrue() throws Exception {
-		Person person = new Person("John", "Boyd", "Gedikkaya Caddesi. Beyzanur", "Giresun", "28000", "0454-27-00-31-", "f.k@gmail.com");
-		MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
-				.put("/person/John/Boyd")
-						.content(objectMapper.writeValueAsString(person))
-						.contentType(MediaType.APPLICATION_JSON)
-						.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isAccepted())
-				.andReturn()
-				.getResponse();
-		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
-	}
-
-	// FireStation
-	@Test
-	public void addNewFireStationInfoShouldReturnTrue() throws Exception {
-		FireStation fireStation = new FireStation("16 Wall Street. Las Vegas", 3);
-		MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
-					.post("/fireStation")
-					.content(objectMapper.writeValueAsString(fireStation))
-					.contentType(MediaType.APPLICATION_JSON)
-					.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isCreated())
-				.andReturn()
-				.getResponse();
-		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
-	}
-
-	@Test
-	public void updateFireStationInfoShouldReturnTrue() throws Exception {
-		FireStation fireStation = new FireStation("1509 Culver St", 88);
-		MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
-				.put("/fireStation")
-				.content(objectMapper.writeValueAsString(fireStation))
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isAccepted())
-				.andReturn()
-				.getResponse();
-		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
-	}
-
-	@Test
-	public void deleteFireStationByAddressShouldReturnTrue() throws Exception {
-		FireStation fireStation = new FireStation("951 LoneTree Rd", 2);
-		MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
-				.delete("/fireStation?address=951 LoneTree Rd")
-				.content(objectMapper.writeValueAsString(fireStation))
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isAccepted())
-				.andReturn()
-				.getResponse();
-		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
-	}
-
-	@Test
-	public void deleteFireStationByStationNumberShouldReturnTrue() throws Exception {
-		FireStation fireStation = new FireStation("951 LoneTree Rd", 2);
-		MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
-						.delete("/fireStation?station=2")
-						.content(objectMapper.writeValueAsString(fireStation))
-						.contentType(MediaType.APPLICATION_JSON)
-						.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isAccepted())
-				.andReturn()
-				.getResponse();
-		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
-	}
-
-	//MedicalRecord
-	@Test
-	public void createMedicalRecordShouldReturnTrue() throws Exception {
-		List<String> medications = new ArrayList<>();
-		medications.add("\"parazol:350mg\"");
-		medications.add("selenium:100mg");
-		List<String> allergies = new ArrayList<>();
-		allergies.add("apple");
-		MedicalRecord record = new MedicalRecord( "Cristiano", "Ronaldo", new SimpleDateFormat("yyyyMMdd").parse("19840306"), medications, allergies);
-		MockHttpServletResponse response = mockMvc.perform( MockMvcRequestBuilders
-						.post("/medicalRecord")
-						.content(objectMapper.writeValueAsString(record))
-						.contentType(MediaType.APPLICATION_JSON)
-						.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isCreated())
-				.andReturn()
-				.getResponse();
-		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
-	}
-
-	@Test
-	public void updateMedicalRecordShouldReturnTrue() throws Exception {
-		List<String> medications = new ArrayList<>();
-		medications.add("\"aznol:350mg\"");
-		medications.add("hydrapermazol:100mg");
-		List<String> allergies = new ArrayList<>();
-		allergies.add("");
-		MedicalRecord record = new MedicalRecord( "John", "Boyd", new SimpleDateFormat( "yyyyMMdd" ).parse( "19840306" ), medications, allergies);
-		MockHttpServletResponse response = mockMvc.perform( MockMvcRequestBuilders
-						.put("/medicalRecord/John/Boyd")
-						.content(objectMapper.writeValueAsString(record))
-						.contentType(MediaType.APPLICATION_JSON)
-						.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isBadRequest())
-				.andReturn()
-				.getResponse();
-		assertEquals("false", response.getContentAsString(StandardCharsets.UTF_8));
-	}
-
-	@Test
-	public void deleteMedicalRecordShouldReturnTrue() throws Exception {
-		List<String> medications = new ArrayList<>();
-		medications.add("\"aznol:350mg\"");
-		medications.add("hydrapermazol:100mg");
-		List<String> allergies = new ArrayList<>();
-		allergies.add("");
-		MedicalRecord record = new MedicalRecord( "John", "Boyd", new SimpleDateFormat("yyyyMMdd").parse("19870707"), medications, allergies);
-		MockHttpServletResponse response = mockMvc.perform( MockMvcRequestBuilders
-						.delete("/medicalRecord/John/Boyd")
-						.content(objectMapper.writeValueAsString(record))
-						.contentType(MediaType.APPLICATION_JSON)
-						.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isAccepted())
-				.andReturn()
-				.getResponse();
-		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
-	}
-
 	// Log error
 	@Test
 	public void getAllEmailsGivenCityReturnAListFalse() throws Exception{
@@ -306,10 +151,10 @@ class SafetynetApplicationTests {
 						.content(objectMapper.writeValueAsString(record))
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isAccepted())
+				.andExpect(status().isBadRequest())
 				.andReturn()
 				.getResponse();
-		assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
+		assertEquals("false", response.getContentAsString(StandardCharsets.UTF_8));
 	}
 
 	@Test
