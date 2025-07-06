@@ -41,31 +41,39 @@ public class FireStationService {
     }
 
     public FireStationNumber getFireStationByStationNumber(int stationNumber){
-        FireStationNumber fireStationNumber = new FireStationNumber();
-        Set<FireStation> fireStations = fireStationRepository.getStationsByNumber(stationNumber);
-        Set<String> addresses = fireStationRepository.findAllAddresses(fireStations);
-        Set<PersonDto> personDtos = new HashSet<>();
-        int adult = 0;
-        int child = 0;
+        Set<FireStation> stations = fireStationRepository.getStationsByNumber(stationNumber);
+        Set<String> addresses = fireStationRepository.findAllAddresses(stations);
+        return buildFireStationNumber(addresses);
+    }
 
-        for(String address : addresses){
-            List<Person> persons = personRepository.findPersonByAddress(address);
-            for(Person personA : persons){
-                String firstName = personA.getFirstName();
-                String lastName = personA.getLastName();
-                int age = medicalRecordService.getAgeByFirstNameAndLastName(firstName, lastName);
-                if(age <= 18){
-                    child += 1;
-                } else {
-                    adult += 1;
-                }
-                personDtos.add(new PersonDto(firstName,lastName, address, personA.getPhone()));
+    private FireStationNumber buildFireStationNumber(Set<String> addresses) {
+        Set<PersonDto> personDtos = new HashSet<>();
+        int adult  = 0;
+        int child  = 0;
+        for (String address : addresses) {
+            for (Person p : personRepository.findPersonByAddress(address)) {
+                int age = medicalRecordService.getAgeByFirstNameAndLastName(
+                        p.getFirstName(), p.getLastName());
+
+                if (age <= 18) child++; else adult++;
+
+                personDtos.add(new PersonDto(
+                        p.getFirstName(),
+                        p.getLastName(),
+                        address,
+                        p.getPhone()));
             }
         }
-        if(personDtos.isEmpty())  return null;
-        fireStationNumber.setAdult(adult);
-        fireStationNumber.setChild(child);
-        fireStationNumber.setListPerson(personDtos);
-        return fireStationNumber;
+        if (personDtos.isEmpty()) {
+            return null;
+        }
+        FireStationNumber dto = new FireStationNumber();
+        dto.setAdult(adult);
+        dto.setChild(child);
+        dto.setListPerson(personDtos);
+        return dto;
     }
+
+
+
 }
