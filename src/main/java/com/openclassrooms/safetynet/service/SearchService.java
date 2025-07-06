@@ -34,7 +34,6 @@ public class SearchService {
     public LinkedHashSet<String> getAllPhoneNumbers(int fireStationNumber){
         LinkedHashSet<String> phones = new LinkedHashSet<>();
         List<String> addresses = new ArrayList<>();
-
         for(FireStation fireStation : fireStationRepository.getAllFireStation()){
             if(fireStation.getStation() == fireStationNumber){
                 addresses.add(fireStation.getAddress());
@@ -55,7 +54,6 @@ public class SearchService {
         List<ChildDto> childDtos = new ArrayList<>();
         List<Person> persons = personRepository.findPersonByAddress(address);
         List<Person> family = new ArrayList<>();
-
         for(Person person : persons){
             String firstName = person.getFirstName();
             String lastName = person.getLastName();
@@ -80,7 +78,6 @@ public class SearchService {
         for (Person person : persons) {
             if (person.getLastName().equalsIgnoreCase(lastName)) {
                 MedicalRecord record = medicalRecordRepository.findMedicalRecordByName(person.getFirstName(), person.getLastName());
-
                 if (record != null) {
                     PersonInfoLastName info = new PersonInfoLastName();
                     info.setFirstName(person.getFirstName());
@@ -90,7 +87,6 @@ public class SearchService {
                     info.setAge(record.getAge());
                     info.setMedications(record.getMedications());
                     info.setAllergies(record.getAllergies());
-
                     resultList.add(info);
                 }
             }
@@ -105,7 +101,6 @@ public class SearchService {
                 addresses.add(fs.getAddress());
             }
         }
-
         List<FloodStations> result = new ArrayList<>();
         for (String address : addresses) {
             List<MedicalRecordDto> residents = buildResidentsForAddress(address);
@@ -121,7 +116,6 @@ public class SearchService {
 
     private List<MedicalRecordDto> buildResidentsForAddress(String address) {
         List<MedicalRecordDto> residents = new ArrayList<>();
-
         for (Person p : personRepository.getAllPersons()) {
             if (address.equals(p.getAddress())) {
                 MedicalRecord m = medicalRecordRepository
