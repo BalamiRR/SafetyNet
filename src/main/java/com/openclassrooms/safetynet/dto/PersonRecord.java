@@ -1,28 +1,33 @@
 package com.openclassrooms.safetynet.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class PersonInfoLastName {
+public class PersonRecord {
     private String firstName;
     private String lastName;
-    private String address;
+    private String phone;
     private int age;
-    private String email;
-    private List<String> medications;
-    private List<String> allergies;
+    private List<String> medications = new ArrayList<>();
+    private List<String> allergies = new ArrayList<>();
 
-    public PersonInfoLastName(){
+    public PersonRecord(){
 
     }
 
-    public PersonInfoLastName(String firstName, String lastName, String address, int age, String email, List<String> medications, List<String> allergies) {
+    public PersonRecord(String firstName, String lastName, String phone, int age, List<String> medications, List<String> allergies) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
+        this.phone = phone;
         this.age = age;
-        this.email = email;
         this.medications = medications;
         this.allergies = allergies;
+    }
+
+    public PersonRecord(String firstName, String lastName, String phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
     }
 
     public String getFirstName() {
@@ -41,12 +46,12 @@ public class PersonInfoLastName {
         this.lastName = lastName;
     }
 
-    public String getAddress() {
-        return address;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public int getAge() {
@@ -55,14 +60,6 @@ public class PersonInfoLastName {
 
     public void setAge(int age) {
         this.age = age;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public List<String> getMedications() {

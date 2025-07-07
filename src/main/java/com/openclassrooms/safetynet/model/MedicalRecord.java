@@ -2,17 +2,20 @@ package com.openclassrooms.safetynet.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class MedicalRecord {
-
     private String firstName;
     private String lastName;
-    @JsonFormat(pattern = "MM/dd/yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birthdate;
-    private List<String> medications;
-    private List<String> allergies;
+    private List<String> medications = new ArrayList<>();
+    private List<String> allergies = new ArrayList<>();
 
     public MedicalRecord(){
 
@@ -76,4 +79,12 @@ public class MedicalRecord {
                 ", allergies=" + allergies +
                 '}';
     }
+
+    public int getAge(){
+        LocalDate birthday = this.birthdate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        Date date = new Date();
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return Period.between(birthday, localDate).getYears();
+    }
+
 }
