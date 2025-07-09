@@ -57,9 +57,6 @@ public class JsonDataConverter implements CommandLineRunner {
                 throw new RuntimeException("data.json not found in resources!");
             }
             JsonDataContainer allInfo = mapper.readValue(is, JsonDataContainer.class);
-            JsonData.setPerson(allInfo.getPersons());
-            JsonData.setFirestation(allInfo.getFirestations());
-            JsonData.setMedicalrecord(allInfo.getMedicalrecords());
             this.persons = allInfo.getPersons();
             this.fireStations = allInfo.getFirestations();
             this.medicalRecord = allInfo.getMedicalrecords();

@@ -142,12 +142,10 @@ public class SearchService {
         for(FireStation fireStation : fireStations){
             numbers.add(fireStation.getStation());
         }
-
         List<PersonRecord> personRecords = getPersonRecord(address);
         fireStationAddress.setStationNumber(numbers);
         fireStationAddress.setMedicalRecordList(personRecords);
         return fireStationAddress;
-
     }
 
     private List<PersonRecord> getPersonRecord(String address){
