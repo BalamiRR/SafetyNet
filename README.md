@@ -7,7 +7,7 @@ It allows them to:
 
 <img width="250" height="250" alt="17159021463335_P5-01_SafetyNet" src="https://github.com/user-attachments/assets/cac14442-e285-4037-932e-c609d8051ecc" />
 
-### How it works?
+### How does it work?
 SafetyNet Alerts uses a JSON file that contains:
 * The names and addresses of residents
 * Important medical information (such as medications)
@@ -20,6 +20,7 @@ For example, in PersonServiceTest, we mock the PersonRepository and check that t
 * Mocking with Mockito is used to isolate dependencies.
 * Examples tested:
   * Saving a person: savePersonDelegatesToRepository()
+    <img width="1041" height="257" alt="image" src="https://github.com/user-attachments/assets/bdb8ac3e-2f69-42da-b0b2-a1fecdde3230" />
   * Updating and deleting person data.
 * Ensures that business logic behaves correctly without relying on external components.
 
