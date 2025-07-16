@@ -20,7 +20,8 @@ For example, in PersonServiceTest, we mock the PersonRepository and check that t
 * Mocking with Mockito is used to isolate dependencies.
 * Examples tested:
   * Saving a person: savePersonDelegatesToRepository()
-  * ```
+  *
+    ```
     @Test
     void savePersonDelegatesToRepository(){
         Person p = new Person("Cristiano", "Ronaldo", "1509 Culver St",
@@ -29,10 +30,9 @@ For example, in PersonServiceTest, we mock the PersonRepository and check that t
         assertTrue(personService.savePerson(p));
         verify(personRepository).savePerson(p);
     }
-
-```
+    ```
   * Updating and deleting person data.
-* Ensures that business logic behaves correctly without relying on external components.
+  * Ensures that business logic behaves correctly without relying on external components.
 
 ###  Integration Tests
 Integration tests verify the complete flow between the controller, service, and repository layers.
@@ -44,7 +44,8 @@ Integration tests verify the complete flow between the controller, service, and 
   * JSON payloads are correctly handled.
   * HTTP responses have expected status codes and content.
   * The data flow from the controller to the repository is functional.
-  ```
+
+   ```
     @Test
     public void createAPersonShouldReturnTrue() throws Exception {
         Person person = new Person("Thomas", "Anderson", "15 Street John Kennedy",
@@ -59,7 +60,7 @@ Integration tests verify the complete flow between the controller, service, and 
                 .getResponse();
         assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
     }
-```
+ ```
 
 ### JaCoCo Report
 <img width="852" height="160" alt="Surefire report" src="https://github.com/user-attachments/assets/a8b72881-cc92-42aa-bce0-b0e9c0b01eed" />
