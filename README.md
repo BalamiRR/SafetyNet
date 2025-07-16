@@ -44,7 +44,6 @@ Integration tests verify the complete flow between the controller, service, and 
   * JSON payloads are correctly handled.
   * HTTP responses have expected status codes and content.
   * The data flow from the controller to the repository is functional.
-
    ```
     @Test
     public void createAPersonShouldReturnTrue() throws Exception {
@@ -60,10 +59,10 @@ Integration tests verify the complete flow between the controller, service, and 
                 .getResponse();
         assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
     }
- ```
-
+  ```
 ### JaCoCo Report
 <img width="852" height="160" alt="Surefire report" src="https://github.com/user-attachments/assets/a8b72881-cc92-42aa-bce0-b0e9c0b01eed" />
 
 ### Surefire Report
 <img width="560" height="131" alt="JaCoCo" src="https://github.com/user-attachments/assets/bd2b26ee-ee82-4b11-b341-02c7f15c2df6" />
+
