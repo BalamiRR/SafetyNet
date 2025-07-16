@@ -20,7 +20,17 @@ For example, in PersonServiceTest, we mock the PersonRepository and check that t
 * Mocking with Mockito is used to isolate dependencies.
 * Examples tested:
   * Saving a person: savePersonDelegatesToRepository()
-    <img width="1041" height="257" alt="image" src="https://github.com/user-attachments/assets/bdb8ac3e-2f69-42da-b0b2-a1fecdde3230" />
+  * ```
+    @Test
+    void savePersonDelegatesToRepository(){
+        Person p = new Person("Cristiano", "Ronaldo", "1509 Culver St",
+                "Culver", "97451", "841-874-651", "drk@email.com");
+        when(personRepository.savePerson(p)).thenReturn(true);
+        assertTrue(personService.savePerson(p));
+        verify(personRepository).savePerson(p);
+    }
+
+```
   * Updating and deleting person data.
 * Ensures that business logic behaves correctly without relying on external components.
 
@@ -34,7 +44,23 @@ Integration tests verify the complete flow between the controller, service, and 
   * JSON payloads are correctly handled.
   * HTTP responses have expected status codes and content.
   * The data flow from the controller to the repository is functional.
-  
+  ```
+    @Test
+    public void createAPersonShouldReturnTrue() throws Exception {
+        Person person = new Person("Thomas", "Anderson", "15 Street John Kennedy",
+                "New York", "28000", "11-555-9999", "t.anderson@gmail.com");
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/person")
+                        .content(objectMapper.writeValueAsString(person))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn()
+                .getResponse();
+        assertEquals("true", response.getContentAsString(StandardCharsets.UTF_8));
+    }
+```
+
 ### JaCoCo Report
 <img width="852" height="160" alt="Surefire report" src="https://github.com/user-attachments/assets/a8b72881-cc92-42aa-bce0-b0e9c0b01eed" />
 
