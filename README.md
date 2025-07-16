@@ -61,8 +61,8 @@ Integration tests verify the complete flow between the controller, service, and 
     }
   ```
 ### JaCoCo Report
-<img width="852" height="160" alt="Surefire report" src="https://github.com/user-attachments/assets/a8b72881-cc92-42aa-bce0-b0e9c0b01eed" />
+<img width="560" height="131" alt="JaCoCo" src="https://github.com/user-attachments/assets/bd2b26ee-ee82-4b11-b341-02c7f15c2df6" />
 
 ### Surefire Report
-<img width="560" height="131" alt="JaCoCo" src="https://github.com/user-attachments/assets/bd2b26ee-ee82-4b11-b341-02c7f15c2df6" />
+<img width="852" height="160" alt="Surefire report" src="https://github.com/user-attachments/assets/a8b72881-cc92-42aa-bce0-b0e9c0b01eed" />
 
